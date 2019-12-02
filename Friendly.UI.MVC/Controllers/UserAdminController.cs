@@ -1,4 +1,4 @@
-﻿using IdentitySample.Models;
+﻿using Friendly.UI.MVC.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Friendly.UI.MVC
+namespace Friendly.UI.MVC.Controllers
 {
     [Authorize(Roles = "Alpha")]
     public class UsersAdminController : Controller

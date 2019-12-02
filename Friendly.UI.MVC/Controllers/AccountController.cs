@@ -1,4 +1,4 @@
-﻿using IdentitySample.Models;
+﻿using Friendly.UI.MVC.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Friendly.UI.MVC
+namespace Friendly.UI.MVC.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -153,7 +153,11 @@ namespace Friendly.UI.MVC
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					#region Dealing with custom user details
+					// TODO: Add user detail handling
+					#endregion
+
+					var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
                     ViewBag.Link = callbackUrl;

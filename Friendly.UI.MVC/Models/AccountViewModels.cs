@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace IdentitySample.Models
+namespace Friendly.UI.MVC.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -64,6 +64,16 @@ namespace IdentitySample.Models
 
     public class RegisterViewModel
     {
+		[Required]
+		[Display(Name = "First Name")]
+		[StringLength(50, ErrorMessage = "The {0} must be at most 50 characters long.")]
+		public string FirstName { get; set; }
+
+		[Required]
+		[Display(Name = "Last Name")]
+		[StringLength(50, ErrorMessage = "The {0} must be at most 50 characters long.")]
+		public string LastName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

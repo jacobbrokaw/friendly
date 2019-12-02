@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace IdentitySample
+namespace Friendly.UI.MVC
 {
     public class BundleConfig
     {

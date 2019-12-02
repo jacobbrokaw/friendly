@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace IdentitySample
+namespace Friendly.UI.MVC
 {
     public partial class Startup
     {
