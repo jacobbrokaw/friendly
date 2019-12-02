@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FriendlyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OpenFriendshipId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ApplicationDate" Type="date" Nullable="false" />
+          <Property Name="ManagerNotes" Type="varchar" MaxLength="2000" />
+          <Property Name="ApplicationStatus" Type="int" Nullable="false" />
+          <Property Name="ResumeFilename" Type="varchar" MaxLength="75" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicationStatuses">
+          <Key>
+            <PropertyRef Name="ApplicationStatusId" />
+          </Key>
+          <Property Name="ApplicationStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusDescription" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Cliques">
+          <Key>
+            <PropertyRef Name="CliqueId" />
+          </Key>
+          <Property Name="CliqueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="BetaId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Friendships">
+          <Key>
+            <PropertyRef Name="FriendshipId" />
+          </Key>
+          <Property Name="FriendshipId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="OpenFriendships">
+          <Key>
+            <PropertyRef Name="OpenFriendshipId" />
+          </Key>
+          <Property Name="OpenFriendshipId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FriendshipId" Type="int" Nullable="false" />
+          <Property Name="CliqueId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ResumeFilename" Type="varchar" MaxLength="75" />
+        </EntityType>
+        <Association Name="FK_Applications_ApplicationStatuses">
+          <End Role="ApplicationStatuses" Type="Self.ApplicationStatuses" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationStatuses">
+              <PropertyRef Name="ApplicationStatusId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="ApplicationStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Applications_OpenFriendships">
+          <End Role="OpenFriendships" Type="Self.OpenFriendships" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OpenFriendships">
+              <PropertyRef Name="OpenFriendshipId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="OpenFriendshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Applications_UserDetails">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Applications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliques_UserDetails">
+          <End Role="UserDetails" Type="Self.UserDetails" Multiplicity="1" />
+          <End Role="Cliques" Type="Self.Cliques" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Cliques">
+              <PropertyRef Name="BetaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpenFriendships_Cliques">
+          <End Role="Cliques" Type="Self.Cliques" Multiplicity="1" />
+          <End Role="OpenFriendships" Type="Self.OpenFriendships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliques">
+              <PropertyRef Name="CliqueId" />
+            </Principal>
+            <Dependent Role="OpenFriendships">
+              <PropertyRef Name="CliqueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpenFriendships_Friendships">
+          <End Role="Friendships" Type="Self.Friendships" Multiplicity="1" />
+          <End Role="OpenFriendships" Type="Self.OpenFriendships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Friendships">
+              <PropertyRef Name="FriendshipId" />
+            </Principal>
+            <Dependent Role="OpenFriendships">
+              <PropertyRef Name="FriendshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FriendlyModelStoreContainer">
+          <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicationStatuses" EntityType="Self.ApplicationStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliques" EntityType="Self.Cliques" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Friendships" EntityType="Self.Friendships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OpenFriendships" EntityType="Self.OpenFriendships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDetails" EntityType="Self.UserDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Applications_ApplicationStatuses" Association="Self.FK_Applications_ApplicationStatuses">
+            <End Role="ApplicationStatuses" EntitySet="ApplicationStatuses" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Applications_OpenFriendships" Association="Self.FK_Applications_OpenFriendships">
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Applications_UserDetails" Association="Self.FK_Applications_UserDetails">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliques_UserDetails" Association="Self.FK_Cliques_UserDetails">
+            <End Role="UserDetails" EntitySet="UserDetails" />
+            <End Role="Cliques" EntitySet="Cliques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpenFriendships_Cliques" Association="Self.FK_OpenFriendships_Cliques">
+            <End Role="Cliques" EntitySet="Cliques" />
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpenFriendships_Friendships" Association="Self.FK_OpenFriendships_Friendships">
+            <End Role="Friendships" EntitySet="Friendships" />
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FriendlyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OpenFriendshipId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ManagerNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="ApplicationStatus" Type="Int32" Nullable="false" />
+          <Property Name="ResumeFilename" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ApplicationStatus1" Relationship="Self.FK_Applications_ApplicationStatuses" FromRole="Applications" ToRole="ApplicationStatuses" />
+          <NavigationProperty Name="OpenFriendship" Relationship="Self.FK_Applications_OpenFriendships" FromRole="Applications" ToRole="OpenFriendships" />
+          <NavigationProperty Name="UserDetail" Relationship="Self.FK_Applications_UserDetails" FromRole="Applications" ToRole="UserDetails" />
+        </EntityType>
+        <EntityType Name="ApplicationStatus">
+          <Key>
+            <PropertyRef Name="ApplicationStatusId" />
+          </Key>
+          <Property Name="ApplicationStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StatusDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Applications" Relationship="Self.FK_Applications_ApplicationStatuses" FromRole="ApplicationStatuses" ToRole="Applications" />
+        </EntityType>
+        <EntityType Name="Clique">
+          <Key>
+            <PropertyRef Name="CliqueId" />
+          </Key>
+          <Property Name="CliqueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BetaId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserDetail" Relationship="Self.FK_Cliques_UserDetails" FromRole="Cliques" ToRole="UserDetails" />
+          <NavigationProperty Name="OpenFriendships" Relationship="Self.FK_OpenFriendships_Cliques" FromRole="Cliques" ToRole="OpenFriendships" />
+        </EntityType>
+        <EntityType Name="Friendship">
+          <Key>
+            <PropertyRef Name="FriendshipId" />
+          </Key>
+          <Property Name="FriendshipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OpenFriendships" Relationship="Self.FK_OpenFriendships_Friendships" FromRole="Friendships" ToRole="OpenFriendships" />
+        </EntityType>
+        <EntityType Name="OpenFriendship">
+          <Key>
+            <PropertyRef Name="OpenFriendshipId" />
+          </Key>
+          <Property Name="OpenFriendshipId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FriendshipId" Type="Int32" Nullable="false" />
+          <Property Name="CliqueId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Applications" Relationship="Self.FK_Applications_OpenFriendships" FromRole="OpenFriendships" ToRole="Applications" />
+          <NavigationProperty Name="Clique" Relationship="Self.FK_OpenFriendships_Cliques" FromRole="OpenFriendships" ToRole="Cliques" />
+          <NavigationProperty Name="Friendship" Relationship="Self.FK_OpenFriendships_Friendships" FromRole="OpenFriendships" ToRole="Friendships" />
+        </EntityType>
+        <EntityType Name="UserDetails">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ResumeFilename" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Applications" Relationship="Self.FK_Applications_UserDetails" FromRole="UserDetails" ToRole="Applications" />
+          <NavigationProperty Name="Cliques" Relationship="Self.FK_Cliques_UserDetails" FromRole="UserDetails" ToRole="Cliques" />
+        </EntityType>
+        <Association Name="FK_Applications_ApplicationStatuses">
+          <End Role="ApplicationStatuses" Type="Self.ApplicationStatus" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationStatuses">
+              <PropertyRef Name="ApplicationStatusId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="ApplicationStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Applications_OpenFriendships">
+          <End Role="OpenFriendships" Type="Self.OpenFriendship" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OpenFriendships">
+              <PropertyRef Name="OpenFriendshipId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="OpenFriendshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Applications_UserDetails">
+          <End Role="UserDetails" Type="FriendlyModel.UserDetails" Multiplicity="1" />
+          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Applications">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliques_UserDetails">
+          <End Role="UserDetails" Type="FriendlyModel.UserDetails" Multiplicity="1" />
+          <End Role="Cliques" Type="Self.Clique" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDetails">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Cliques">
+              <PropertyRef Name="BetaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpenFriendships_Cliques">
+          <End Role="Cliques" Type="Self.Clique" Multiplicity="1" />
+          <End Role="OpenFriendships" Type="Self.OpenFriendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliques">
+              <PropertyRef Name="CliqueId" />
+            </Principal>
+            <Dependent Role="OpenFriendships">
+              <PropertyRef Name="CliqueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OpenFriendships_Friendships">
+          <End Role="Friendships" Type="Self.Friendship" Multiplicity="1" />
+          <End Role="OpenFriendships" Type="Self.OpenFriendship" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Friendships">
+              <PropertyRef Name="FriendshipId" />
+            </Principal>
+            <Dependent Role="OpenFriendships">
+              <PropertyRef Name="FriendshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FriendlyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="ApplicationStatuses" EntityType="Self.ApplicationStatus" />
+          <EntitySet Name="Cliques" EntityType="Self.Clique" />
+          <EntitySet Name="Friendships" EntityType="Self.Friendship" />
+          <EntitySet Name="OpenFriendships" EntityType="Self.OpenFriendship" />
+          <EntitySet Name="UserDetails1" EntityType="FriendlyModel.UserDetails" />
+          <AssociationSet Name="FK_Applications_ApplicationStatuses" Association="Self.FK_Applications_ApplicationStatuses">
+            <End Role="ApplicationStatuses" EntitySet="ApplicationStatuses" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Applications_OpenFriendships" Association="Self.FK_Applications_OpenFriendships">
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Applications_UserDetails" Association="Self.FK_Applications_UserDetails">
+            <End Role="UserDetails" EntitySet="UserDetails1" />
+            <End Role="Applications" EntitySet="Applications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliques_UserDetails" Association="Self.FK_Cliques_UserDetails">
+            <End Role="UserDetails" EntitySet="UserDetails1" />
+            <End Role="Cliques" EntitySet="Cliques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpenFriendships_Cliques" Association="Self.FK_OpenFriendships_Cliques">
+            <End Role="Cliques" EntitySet="Cliques" />
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OpenFriendships_Friendships" Association="Self.FK_OpenFriendships_Friendships">
+            <End Role="Friendships" EntitySet="Friendships" />
+            <End Role="OpenFriendships" EntitySet="OpenFriendships" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FriendlyModelStoreContainer" CdmEntityContainer="FriendlyEntities">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="FriendlyModel.Application">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="OpenFriendshipId" ColumnName="OpenFriendshipId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
+                <ScalarProperty Name="ManagerNotes" ColumnName="ManagerNotes" />
+                <ScalarProperty Name="ApplicationStatus" ColumnName="ApplicationStatus" />
+                <ScalarProperty Name="ResumeFilename" ColumnName="ResumeFilename" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationStatuses">
+            <EntityTypeMapping TypeName="FriendlyModel.ApplicationStatus">
+              <MappingFragment StoreEntitySet="ApplicationStatuses">
+                <ScalarProperty Name="ApplicationStatusId" ColumnName="ApplicationStatusId" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusDescription" ColumnName="StatusDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliques">
+            <EntityTypeMapping TypeName="FriendlyModel.Clique">
+              <MappingFragment StoreEntitySet="Cliques">
+                <ScalarProperty Name="CliqueId" ColumnName="CliqueId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="BetaId" ColumnName="BetaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Friendships">
+            <EntityTypeMapping TypeName="FriendlyModel.Friendship">
+              <MappingFragment StoreEntitySet="Friendships">
+                <ScalarProperty Name="FriendshipId" ColumnName="FriendshipId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OpenFriendships">
+            <EntityTypeMapping TypeName="FriendlyModel.OpenFriendship">
+              <MappingFragment StoreEntitySet="OpenFriendships">
+                <ScalarProperty Name="OpenFriendshipId" ColumnName="OpenFriendshipId" />
+                <ScalarProperty Name="FriendshipId" ColumnName="FriendshipId" />
+                <ScalarProperty Name="CliqueId" ColumnName="CliqueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetails1">
+            <EntityTypeMapping TypeName="FriendlyModel.UserDetails">
+              <MappingFragment StoreEntitySet="UserDetails">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="ResumeFilename" ColumnName="ResumeFilename" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
