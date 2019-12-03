@@ -24,6 +24,6 @@ namespace Friendly.DATA.EF
     
         public virtual ApplicationStatus ApplicationStatus1 { get; set; }
         public virtual OpenFriendship OpenFriendship { get; set; }
-        public virtual UserDetails UserDetail { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
     }
 }

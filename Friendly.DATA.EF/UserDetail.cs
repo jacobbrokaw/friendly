@@ -12,10 +12,10 @@ namespace Friendly.DATA.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class UserDetails
+    public partial class UserDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserDetails()
+        public UserDetail()
         {
             this.Applications = new HashSet<Application>();
             this.Cliques = new HashSet<Clique>();

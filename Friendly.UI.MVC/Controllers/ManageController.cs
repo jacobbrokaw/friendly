@@ -6,12 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Friendly.DATA.EF; // added
 
 namespace Friendly.UI.MVC.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+		private FriendlyEntities db = new FriendlyEntities(); // added
+
         public ManageController()
         {
         }
@@ -35,9 +38,9 @@ namespace Friendly.UI.MVC.Controllers
         }
 
         //
-        // GET: /Account/Index
+        // GET: /Manage/Index
         [HttpGet]
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -47,18 +50,67 @@ namespace Friendly.UI.MVC.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "The phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
+			
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+			UserDetail userDetail = db.UserDetails.Find(User.Identity.GetUserId());
+			if (userDetail == null)
+			{
+				return HttpNotFound();
+			}
+			
+			//var model = new IndexViewModel
+			//{
+			//    HasPassword = HasPassword(),
+			//    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+			//    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+			//    Logins = await UserManager.GetLoginsAsync(userId),
+			//    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+			//};
+			//return View(model);
+			return View(userDetail);
         }
+
+		//
+		// POST: /Manage/Index
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Index(UserDetail model, HttpPostedFileBase resumeFile)
+		{
+			if (ModelState.IsValid)
+			{
+				UserDetail userDetails = db.UserDetails.Find(User.Identity.GetUserId());
+				if (userDetails == null)
+				{
+					return HttpNotFound();
+				}
+				userDetails.FirstName = model.FirstName;
+				userDetails.LastName = model.LastName;
+				// Handling resume upload
+				if (resumeFile != null)
+				{
+					string fileName = resumeFile.FileName;
+
+					string ext = fileName.Substring(fileName.LastIndexOf('.')).ToLower();
+
+					if (ext.Equals(".pdf"))
+					{
+						fileName = System.Guid.NewGuid() + ext;
+						resumeFile.SaveAs(Server.MapPath("~/Content/Resumes/" + fileName));
+						userDetails.ResumeFilename = fileName;
+					}
+					else
+					{
+						// TODO: handle non-PDFs
+						TempData["ErrorMessage"] = "Resumes must be a PDF";
+					}
+				}
+
+				db.SaveChanges();
+
+				return RedirectToAction("Index");
+			}
+			return View(model);
+		}
 
         //
         // GET: /Account/RemoveLogin

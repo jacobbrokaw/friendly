@@ -168,8 +168,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationsController.cs" />
+    <Compile Include="Controllers\ApplicationStatusController.cs" />
+    <Compile Include="Controllers\CliquesController.cs" />
+    <Compile Include="Controllers\FriendshipsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OpenFriendshipsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Global.asax.cs">
@@ -251,9 +256,35 @@
     <Content Include="Views\RolesAdmin\Delete.cshtml" />
     <Content Include="Views\RolesAdmin\Create.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Cliques\Create.cshtml" />
+    <Content Include="Views\Cliques\Delete.cshtml" />
+    <Content Include="Views\Cliques\Details.cshtml" />
+    <Content Include="Views\Cliques\Edit.cshtml" />
+    <Content Include="Views\Cliques\Index.cshtml" />
+    <Content Include="Views\Friendships\Create.cshtml" />
+    <Content Include="Views\Friendships\Delete.cshtml" />
+    <Content Include="Views\Friendships\Details.cshtml" />
+    <Content Include="Views\Friendships\Edit.cshtml" />
+    <Content Include="Views\Friendships\Index.cshtml" />
+    <Content Include="Views\OpenFriendships\Create.cshtml" />
+    <Content Include="Views\OpenFriendships\Delete.cshtml" />
+    <Content Include="Views\OpenFriendships\Details.cshtml" />
+    <Content Include="Views\OpenFriendships\Edit.cshtml" />
+    <Content Include="Views\OpenFriendships\Index.cshtml" />
+    <Content Include="Views\Applications\Create.cshtml" />
+    <Content Include="Views\Applications\Delete.cshtml" />
+    <Content Include="Views\Applications\Details.cshtml" />
+    <Content Include="Views\Applications\Edit.cshtml" />
+    <Content Include="Views\Applications\Index.cshtml" />
+    <Content Include="Views\ApplicationStatus\Create.cshtml" />
+    <Content Include="Views\ApplicationStatus\Delete.cshtml" />
+    <Content Include="Views\ApplicationStatus\Details.cshtml" />
+    <Content Include="Views\ApplicationStatus\Edit.cshtml" />
+    <Content Include="Views\ApplicationStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Resumes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

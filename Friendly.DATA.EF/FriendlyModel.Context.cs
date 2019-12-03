@@ -30,6 +30,6 @@ namespace Friendly.DATA.EF
         public virtual DbSet<Clique> Cliques { get; set; }
         public virtual DbSet<Friendship> Friendships { get; set; }
         public virtual DbSet<OpenFriendship> OpenFriendships { get; set; }
-        public virtual DbSet<UserDetails> UserDetails1 { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
     }
 }

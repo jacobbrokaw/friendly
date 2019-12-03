@@ -26,7 +26,7 @@ namespace Friendly.DATA.EF
         public string State { get; set; }
         public string BetaId { get; set; }
     
-        public virtual UserDetails UserDetail { get; set; }
+        public virtual UserDetail UserDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OpenFriendship> OpenFriendships { get; set; }
     }

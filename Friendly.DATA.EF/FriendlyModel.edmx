@@ -225,7 +225,7 @@
           <NavigationProperty Name="Clique" Relationship="Self.FK_OpenFriendships_Cliques" FromRole="OpenFriendships" ToRole="Cliques" />
           <NavigationProperty Name="Friendship" Relationship="Self.FK_OpenFriendships_Friendships" FromRole="OpenFriendships" ToRole="Friendships" />
         </EntityType>
-        <EntityType Name="UserDetails">
+        <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -261,7 +261,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Applications_UserDetails">
-          <End Role="UserDetails" Type="FriendlyModel.UserDetails" Multiplicity="1" />
+          <End Role="UserDetails" Type="FriendlyModel.UserDetail" Multiplicity="1" />
           <End Role="Applications" Type="Self.Application" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserDetails">
@@ -273,7 +273,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Cliques_UserDetails">
-          <End Role="UserDetails" Type="FriendlyModel.UserDetails" Multiplicity="1" />
+          <End Role="UserDetails" Type="FriendlyModel.UserDetail" Multiplicity="1" />
           <End Role="Cliques" Type="Self.Clique" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserDetails">
@@ -314,7 +314,7 @@
           <EntitySet Name="Cliques" EntityType="Self.Clique" />
           <EntitySet Name="Friendships" EntityType="Self.Friendship" />
           <EntitySet Name="OpenFriendships" EntityType="Self.OpenFriendship" />
-          <EntitySet Name="UserDetails1" EntityType="FriendlyModel.UserDetails" />
+          <EntitySet Name="UserDetails" EntityType="FriendlyModel.UserDetail" />
           <AssociationSet Name="FK_Applications_ApplicationStatuses" Association="Self.FK_Applications_ApplicationStatuses">
             <End Role="ApplicationStatuses" EntitySet="ApplicationStatuses" />
             <End Role="Applications" EntitySet="Applications" />
@@ -324,11 +324,11 @@
             <End Role="Applications" EntitySet="Applications" />
           </AssociationSet>
           <AssociationSet Name="FK_Applications_UserDetails" Association="Self.FK_Applications_UserDetails">
-            <End Role="UserDetails" EntitySet="UserDetails1" />
+            <End Role="UserDetails" EntitySet="UserDetails" />
             <End Role="Applications" EntitySet="Applications" />
           </AssociationSet>
           <AssociationSet Name="FK_Cliques_UserDetails" Association="Self.FK_Cliques_UserDetails">
-            <End Role="UserDetails" EntitySet="UserDetails1" />
+            <End Role="UserDetails" EntitySet="UserDetails" />
             <End Role="Cliques" EntitySet="Cliques" />
           </AssociationSet>
           <AssociationSet Name="FK_OpenFriendships_Cliques" Association="Self.FK_OpenFriendships_Cliques">
@@ -397,8 +397,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserDetails1">
-            <EntityTypeMapping TypeName="FriendlyModel.UserDetails">
+          <EntitySetMapping Name="UserDetails">
+            <EntityTypeMapping TypeName="FriendlyModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetails">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />

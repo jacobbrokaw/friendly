@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="FriendlyModel.Clique" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.Friendship" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.OpenFriendship" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="FriendlyModel.UserDetails" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FriendlyModel.UserDetail" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_ApplicationStatuses" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_OpenFriendships" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_UserDetails" ManuallyRouted="false" />

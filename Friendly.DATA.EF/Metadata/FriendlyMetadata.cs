@@ -63,16 +63,16 @@ namespace Friendly.DATA.EF//.Metadata
 	public partial class OpenFriendship { }
 	#endregion
 
-	#region UserDetails
-	public class UserDetailsMetadata
+	#region UserDetail
+	public class UserDetailMetadata
 	{
 		public string UserId { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string ResumeFilename { get; set; }
 	}
-	[MetadataType(typeof(UserDetailsMetadata))]
-	public partial class UserDetails
+	[MetadataType(typeof(UserDetailMetadata))]
+	public partial class UserDetail
 	{
 		public string FullName
 		{

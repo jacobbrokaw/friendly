@@ -1,77 +1,73 @@
-﻿@model Friendly.UI.MVC.Models.IndexViewModel
+﻿@model Friendly.DATA.EF.UserDetail
 @{
-    ViewBag.Title = "Manage your account";
+	ViewBag.Title = "Account Management";
 }
 
-<h2>@ViewBag.Title.</h2>
-<p class="text-success">@ViewBag.StatusMessage</p>
+<h2>@ViewBag.Title</h2>
+@if (ViewBag.StatusMessage != "")
+{
+	<p class="text-success">@ViewBag.StatusMessage</p>
+}
+@if ((string)TempData["ErrorMessage"] != "")
+{
+	<p class="text-danger">@((string)TempData["ErrorMessage"])</p>
+}
+
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<hr />
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	@Html.HiddenFor(model => model.ResumeFilename)
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	//Resume
+	<div class="form-group">
+		<label class="col-md-2 control-label" for="resumeFile">Resume</label>
+		<div class="col-md-10">
+			@if (!Model.ResumeFilename.IsEmpty())
+			{
+				<embed src="@Url.Content("~/Content/Resumes/" + Model.ResumeFilename)" style="width:80%;height:500px;" alt="Unable to load current resume" />
+			}
+			else
+			{
+				<span class="text-info small">You haven't uploaded a resume yet.</span>
+			}
+			<input type="file" name="resumeFile" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Update" class="btn btn-default" />
+		</div>
+	</div>
+}
+
 <div class="row">
-    <div class="col-md-8">
-        <p>
-            @(Model.HasPassword ? Html.ActionLink("Change your password", "ChangePassword") 
-                : Html.ActionLink("Pick a password", "SetPassword"))
-        </p>
-        <p>
-            Phone Number: @(Model.PhoneNumber ?? "None") [
-            @if (Model.PhoneNumber != null)
-            {
-                @Html.ActionLink("Change", "AddPhoneNumber")
-                @: &nbsp;|&nbsp;
-                @Html.ActionLink("Remove", "RemovePhoneNumber")
-            }
-            else
-            {
-                @Html.ActionLink("Add", "AddPhoneNumber")
-            }
-            ]
-        </p>
-        <p>
-            External Logins: @Model.Logins.Count
-            @Html.ActionLink("[Manage]", "ManageLogins")
-        </p>
-        @if (Model.TwoFactor)
-        {
-            using (Html.BeginForm("DisableTFA", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-            {
-                 @Html.AntiForgeryToken()
-                 <p>
-                     Two factor is currently enabled:
-                     <input type="submit" value="Disable" class="btn btn-default"/>
-                 </p>
-            }
-        }
-        else
-        {
-            using (Html.BeginForm("EnableTFA", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-            {
-                @Html.AntiForgeryToken()
-                <p>
-                    Two factor is currently disabled:
-                    <input type="submit" value="Enable" class="btn btn-default"/>
-                </p>
-            }
-        }
-        @if (Model.BrowserRemembered)
-        {
-            using (Html.BeginForm("ForgetBrowser", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-            {
-                @Html.AntiForgeryToken()
-                <p>
-                    Browser is curently remembered for two factor:
-                    <input type="submit" value="Forget Browser" class="btn btn-default" />
-                </p>
-            }
-        }
-        else
-        {
-            using (Html.BeginForm("RememberBrowser", "Manage", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-            {
-                @Html.AntiForgeryToken()
-                <p>
-                    Browser is curently not remembered for two factor:
-                    <input type="submit" value="Remember Browser" class="btn btn-default"/>
-                </p>
-            }
-        }
-    </div>
+	<div class="col-md-8">
+		<p>
+			@Html.ActionLink("Change your password", "ChangePassword")
+		</p>
+
+	</div>
 </div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
