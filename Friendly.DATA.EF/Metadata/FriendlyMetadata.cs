@@ -85,8 +85,8 @@ namespace Friendly.DATA.EF//.Metadata
 	{
 
 		[Required]
-		[Display(Name = "Position")]
-		[StringLength(50, ErrorMessage = "The position must be a maximum of 50 characters")]
+		[Display(Name = "Friendship")]
+		[StringLength(50, ErrorMessage = "The friendship must be a maximum of 50 characters")]
 		public string Title { get; set; }
 
 		[Required]
@@ -101,7 +101,7 @@ namespace Friendly.DATA.EF//.Metadata
 	public class OpenFriendshipMetadata
 	{
 		[Required]
-		[Display(Name = "Position")]
+		[Display(Name = "Friendship")]
 		public int FriendshipId { get; set; }
 
 		[Required]
@@ -127,7 +127,6 @@ namespace Friendly.DATA.EF//.Metadata
 		[StringLength(50, ErrorMessage = "Last name must be a maximum of 50 characters")]
 		public string LastName { get; set; }
 
-		[Required]
 		[Display(Name = "Resume")]
 		public string ResumeFilename { get; set; }
 	}

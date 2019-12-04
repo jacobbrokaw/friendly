@@ -17,6 +17,9 @@
         <AssociationConnector Association="FriendlyModel.FK_OpenFriendships_Cliques" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_OpenFriendships_Friendships" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_ApplicationStatuses1" />
+        <EntityTypeShape EntityType="FriendlyModel.AspNetRole" Width="1.5" PointX="3.375" PointY="0.875" />
+        <EntityTypeShape EntityType="FriendlyModel.AspNetUserRole" Width="1.5" PointX="5.625" PointY="0.875" />
+        <AssociationConnector Association="FriendlyModel.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

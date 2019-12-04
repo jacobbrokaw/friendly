@@ -31,5 +31,7 @@ namespace Friendly.DATA.EF
         public virtual DbSet<Friendship> Friendships { get; set; }
         public virtual DbSet<OpenFriendship> OpenFriendships { get; set; }
         public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
     }
 }
