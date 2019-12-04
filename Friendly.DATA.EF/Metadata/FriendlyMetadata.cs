@@ -14,7 +14,7 @@ namespace Friendly.DATA.EF//.Metadata
 		public string UserId { get; set; }
 		public System.DateTime ApplicationDate { get; set; }
 		public string ManagerNotes { get; set; }
-		public int ApplicationStatus { get; set; }
+		public int ApplicationStatusId { get; set; }
 		public string ResumeFilename { get; set; }
 	}
 	[MetadataType(typeof(ApplicationMetadata))]

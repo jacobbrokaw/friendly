@@ -5,18 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="583b67fb9a8245dbaaa737e1b12e1658" Name="Diagram1">
-        <EntityTypeShape EntityType="FriendlyModel.Application" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FriendlyModel.Application" Width="3.875" PointX="3" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.ApplicationStatus" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.Clique" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.Friendship" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.OpenFriendship" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="FriendlyModel.UserDetail" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <AssociationConnector Association="FriendlyModel.FK_Applications_ApplicationStatuses" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_OpenFriendships" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Applications_UserDetails" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_Cliques_UserDetails" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_OpenFriendships_Cliques" ManuallyRouted="false" />
         <AssociationConnector Association="FriendlyModel.FK_OpenFriendships_Friendships" ManuallyRouted="false" />
+        <AssociationConnector Association="FriendlyModel.FK_Applications_ApplicationStatuses1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

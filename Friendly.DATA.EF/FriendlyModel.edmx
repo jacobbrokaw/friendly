@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FriendlyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="FriendlyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -14,7 +14,7 @@
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ApplicationDate" Type="date" Nullable="false" />
           <Property Name="ManagerNotes" Type="varchar" MaxLength="2000" />
-          <Property Name="ApplicationStatus" Type="int" Nullable="false" />
+          <Property Name="ApplicationStatusId" Type="int" Nullable="false" />
           <Property Name="ResumeFilename" Type="varchar" MaxLength="75" Nullable="false" />
         </EntityType>
         <EntityType Name="ApplicationStatuses">
@@ -68,7 +68,7 @@
               <PropertyRef Name="ApplicationStatusId" />
             </Principal>
             <Dependent Role="Applications">
-              <PropertyRef Name="ApplicationStatus" />
+              <PropertyRef Name="ApplicationStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -164,8 +164,7 @@
             <End Role="OpenFriendships" EntitySet="OpenFriendships" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FriendlyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -178,11 +177,11 @@
           <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApplicationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ManagerNotes" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-          <Property Name="ApplicationStatus" Type="Int32" Nullable="false" />
           <Property Name="ResumeFilename" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ApplicationStatus1" Relationship="Self.FK_Applications_ApplicationStatuses" FromRole="Applications" ToRole="ApplicationStatuses" />
           <NavigationProperty Name="OpenFriendship" Relationship="Self.FK_Applications_OpenFriendships" FromRole="Applications" ToRole="OpenFriendships" />
           <NavigationProperty Name="UserDetail" Relationship="Self.FK_Applications_UserDetails" FromRole="Applications" ToRole="UserDetails" />
+          <Property Name="ApplicationStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ApplicationStatus" Relationship="FriendlyModel.FK_Applications_ApplicationStatuses1" FromRole="Application" ToRole="ApplicationStatus" />
         </EntityType>
         <EntityType Name="ApplicationStatus">
           <Key>
@@ -191,7 +190,7 @@
           <Property Name="ApplicationStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StatusName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="StatusDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Applications" Relationship="Self.FK_Applications_ApplicationStatuses" FromRole="ApplicationStatuses" ToRole="Applications" />
+          <NavigationProperty Name="Applications" Relationship="FriendlyModel.FK_Applications_ApplicationStatuses1" FromRole="ApplicationStatus" ToRole="Application" />
         </EntityType>
         <EntityType Name="Clique">
           <Key>
@@ -236,18 +235,6 @@
           <NavigationProperty Name="Applications" Relationship="Self.FK_Applications_UserDetails" FromRole="UserDetails" ToRole="Applications" />
           <NavigationProperty Name="Cliques" Relationship="Self.FK_Cliques_UserDetails" FromRole="UserDetails" ToRole="Cliques" />
         </EntityType>
-        <Association Name="FK_Applications_ApplicationStatuses">
-          <End Role="ApplicationStatuses" Type="Self.ApplicationStatus" Multiplicity="1" />
-          <End Role="Applications" Type="Self.Application" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ApplicationStatuses">
-              <PropertyRef Name="ApplicationStatusId" />
-            </Principal>
-            <Dependent Role="Applications">
-              <PropertyRef Name="ApplicationStatus" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Applications_OpenFriendships">
           <End Role="OpenFriendships" Type="Self.OpenFriendship" Multiplicity="1" />
           <End Role="Applications" Type="Self.Application" Multiplicity="*" />
@@ -315,10 +302,6 @@
           <EntitySet Name="Friendships" EntityType="Self.Friendship" />
           <EntitySet Name="OpenFriendships" EntityType="Self.OpenFriendship" />
           <EntitySet Name="UserDetails" EntityType="FriendlyModel.UserDetail" />
-          <AssociationSet Name="FK_Applications_ApplicationStatuses" Association="Self.FK_Applications_ApplicationStatuses">
-            <End Role="ApplicationStatuses" EntitySet="ApplicationStatuses" />
-            <End Role="Applications" EntitySet="Applications" />
-          </AssociationSet>
           <AssociationSet Name="FK_Applications_OpenFriendships" Association="Self.FK_Applications_OpenFriendships">
             <End Role="OpenFriendships" EntitySet="OpenFriendships" />
             <End Role="Applications" EntitySet="Applications" />
@@ -339,7 +322,23 @@
             <End Role="Friendships" EntitySet="Friendships" />
             <End Role="OpenFriendships" EntitySet="OpenFriendships" />
           </AssociationSet>
+          <AssociationSet Name="FK_Applications_ApplicationStatuses1" Association="FriendlyModel.FK_Applications_ApplicationStatuses1">
+            <End Role="ApplicationStatus" EntitySet="ApplicationStatuses" />
+            <End Role="Application" EntitySet="Applications" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Applications_ApplicationStatuses1">
+          <End Type="FriendlyModel.ApplicationStatus" Role="ApplicationStatus" Multiplicity="1" />
+          <End Type="FriendlyModel.Application" Role="Application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApplicationStatus">
+              <PropertyRef Name="ApplicationStatusId" />
+            </Principal>
+            <Dependent Role="Application">
+              <PropertyRef Name="ApplicationStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -349,12 +348,12 @@
           <EntitySetMapping Name="Applications">
             <EntityTypeMapping TypeName="FriendlyModel.Application">
               <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="ApplicationStatusId" ColumnName="ApplicationStatusId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="OpenFriendshipId" ColumnName="OpenFriendshipId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ApplicationDate" ColumnName="ApplicationDate" />
                 <ScalarProperty Name="ManagerNotes" ColumnName="ManagerNotes" />
-                <ScalarProperty Name="ApplicationStatus" ColumnName="ApplicationStatus" />
                 <ScalarProperty Name="ResumeFilename" ColumnName="ResumeFilename" />
               </MappingFragment>
             </EntityTypeMapping>

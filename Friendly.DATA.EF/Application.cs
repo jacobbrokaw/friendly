@@ -19,11 +19,11 @@ namespace Friendly.DATA.EF
         public string UserId { get; set; }
         public System.DateTime ApplicationDate { get; set; }
         public string ManagerNotes { get; set; }
-        public int ApplicationStatus { get; set; }
         public string ResumeFilename { get; set; }
+        public int ApplicationStatusId { get; set; }
     
-        public virtual ApplicationStatus ApplicationStatus1 { get; set; }
         public virtual OpenFriendship OpenFriendship { get; set; }
         public virtual UserDetail UserDetail { get; set; }
+        public virtual ApplicationStatus ApplicationStatus { get; set; }
     }
 }

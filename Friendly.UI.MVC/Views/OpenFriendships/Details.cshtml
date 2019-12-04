@@ -27,6 +27,10 @@
         </dd>
 
     </dl>
+
+	@* Apply *@
+	@Html.ActionLink("Apply", "Apply", "Applications", new { openFriendshipId = Model.OpenFriendshipId }, new { @class = "btn btn-primary" })
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.OpenFriendshipId }) |
