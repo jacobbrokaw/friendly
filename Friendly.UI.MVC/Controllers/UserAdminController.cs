@@ -1,4 +1,5 @@
-﻿using Friendly.UI.MVC.Models;
+﻿using Friendly.DATA.EF;
+using Friendly.UI.MVC.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System.Data.Entity;
 using System.Linq;
@@ -106,7 +107,18 @@ namespace Friendly.UI.MVC.Controllers
                             return View();
                         }
                     }
-                }
+
+					#region Dealing with custom user details
+					UserDetail newUserDetails = new UserDetail();
+					newUserDetails.UserId = user.Id;
+					newUserDetails.FirstName = userViewModel.FirstName;
+					newUserDetails.LastName = userViewModel.LastName;
+
+					FriendlyEntities db = new FriendlyEntities();
+					db.UserDetails.Add(newUserDetails);
+					db.SaveChanges();
+					#endregion
+				}
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First());

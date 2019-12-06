@@ -37,6 +37,7 @@ namespace Friendly.UI.MVC.Controllers
         }
 
         // GET: Friendships/Create
+		[Authorize(Roles = "Alpha")]
         public ActionResult Create()
         {
             return View();
@@ -47,6 +48,7 @@ namespace Friendly.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+		[Authorize(Roles = "Alpha")]
         public ActionResult Create([Bind(Include = "FriendshipId,Title,Description")] Friendship friendship)
         {
             if (ModelState.IsValid)
@@ -60,6 +62,7 @@ namespace Friendly.UI.MVC.Controllers
         }
 
         // GET: Friendships/Edit/5
+		[Authorize(Roles = "Alpha")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,6 +82,7 @@ namespace Friendly.UI.MVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+		[Authorize(Roles = "Alpha")]
         public ActionResult Edit([Bind(Include = "FriendshipId,Title,Description")] Friendship friendship)
         {
             if (ModelState.IsValid)
@@ -91,9 +95,10 @@ namespace Friendly.UI.MVC.Controllers
         }
 
         // GET: Friendships/Delete/5
+		[Authorize(Roles = "Alpha")]
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (id == null || db.Friendships.Find(id).OpenFriendships.Count != 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -108,8 +113,13 @@ namespace Friendly.UI.MVC.Controllers
         // POST: Friendships/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+		[Authorize(Roles = "Alpha")]
         public ActionResult DeleteConfirmed(int id)
         {
+			if (db.Friendships.Find(id).OpenFriendships.Count != 0)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
             Friendship friendship = db.Friendships.Find(id);
             db.Friendships.Remove(friendship);
             db.SaveChanges();

@@ -50,25 +50,32 @@
 			@Html.DisplayFor(model => model.OpenFriendship.Friendship.Title)
 		</dd>
 
-		@if (User.IsInRole("Beta"))
+		@if (User.IsInRole("Alpha") || User.IsInRole("Beta"))
 		{
 			<dt>
 				@Html.DisplayNameFor(model => model.ManagerNotes)
 			</dt>
 
 			<dd>
-				@using (Html.BeginForm("UpdateNotes", "Applications", new { id = Model.ApplicationId }))
+				@if (User.IsInRole("Alpha"))
 				{
-					@Html.AntiForgeryToken()
-					@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+					@Html.DisplayFor(model => model.ManagerNotes)
+				}
+				else
+				{
+					using (Html.BeginForm("UpdateNotes", "Applications", new { id = Model.ApplicationId }))
+					{
+						@Html.AntiForgeryToken()
+						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-					<div class="form-group">
-						@Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
-					</div>
-					<div class="form-group">
-						<input type="submit" value="Update Notes" class="btn btn-primary" />
-					</div>
+						<div class="form-group">
+							@Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
+							@Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Update Notes" class="btn btn-primary" />
+						</div>
+					}
 				}
 			</dd>
 		}

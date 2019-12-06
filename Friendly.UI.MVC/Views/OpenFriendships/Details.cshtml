@@ -1,36 +1,67 @@
 ﻿@model Friendly.DATA.EF.OpenFriendship
 
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>OpenFriendship</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Clique.Name)
-        </dt>
+	<h4>OpenFriendship</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Friendship.Title)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Clique.Name)
-        </dd>
+		<dd>
+			@Html.DisplayFor(model => model.Friendship.Title)
+		</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Friendship.Title)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.Clique.Name)
+		</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Friendship.Title)
-        </dd>
-    </dl>
+		<dd>
+			@Html.DisplayFor(model => model.Clique.Name)
+		</dd>
 
-	@Html.ActionLink("Apply", "Apply", "Applications", new { openFriendshipId = Model.OpenFriendshipId }, new { @class = "btn btn-primary" })
+		<dt>
+			@Html.DisplayNameFor(model => model.Clique.BetaId)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Clique.UserDetail.FullName)
+		</dd>
+
+		@* TODO: Continue adding relevant information to the pages *@
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Clique.Location)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Clique.Location)
+		</dd>
+	</dl>
+
+	@if (User.IsInRole("Friend"))
+	{
+		@Html.ActionLink("Apply", "Apply", "Applications", new { openFriendshipId = Model.OpenFriendshipId }, new { @class = "btn btn-primary" })
+	}
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.OpenFriendshipId }) |
-    @Html.ActionLink("Back to List", "Index")
+	@if (User.IsInRole("Beta"))
+	{
+		if (Model.Applications.Count == 0)
+		{
+			@Html.ActionLink("Edit", "Edit", new { id = Model.OpenFriendshipId }, new { @class = "btn btn-link" })
+		}
+		else
+		{
+			<a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
+		}
+	}
+	@Html.ActionLink("Back to List", "Index")
 </p>

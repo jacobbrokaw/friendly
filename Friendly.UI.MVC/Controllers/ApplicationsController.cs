@@ -61,25 +61,30 @@ namespace Friendly.UI.MVC.Controllers
 		//GET: Application/Apply/[openFriendshipId]
 		public ActionResult Apply(int openFriendshipId)
 		{
-			var userId = User.Identity.GetUserId();
-
-			if(db.UserDetails.Find(userId).ResumeFilename == null)
+			if (User.IsInRole("Friend"))
 			{
-				TempData["ErrorMessage"] = "Please upload a resume before applying";
-				TempData["ApplyingTo"] = openFriendshipId;
-				return RedirectToAction("Index", "Manage");
+				var userId = User.Identity.GetUserId();
+
+				if (db.UserDetails.Find(userId).ResumeFilename == null)
+				{
+					TempData["ErrorMessage"] = "Please upload a resume before applying";
+					TempData["ApplyingTo"] = openFriendshipId;
+					return RedirectToAction("Index", "Manage");
+				}
+
+				Application application = new Application();
+				application.ApplicationStatusId = 1;
+				application.ApplicationDate = DateTime.Now;
+				application.UserId = userId;
+				application.OpenFriendshipId = openFriendshipId;
+				application.ResumeFilename = db.UserDetails.Find(userId).ResumeFilename;
+
+				db.Applications.Add(application);
+				db.SaveChanges();
+				return RedirectToAction("Index", "OpenFriendships");
 			}
 
-			Application application = new Application();
-			application.ApplicationStatusId = 1;
-			application.ApplicationDate = DateTime.Now;
-			application.UserId = userId;
-			application.OpenFriendshipId = openFriendshipId;
-			application.ResumeFilename = db.UserDetails.Find(userId).ResumeFilename;
-
-			db.Applications.Add(application);
-			db.SaveChanges();
-			return RedirectToAction("Index", "OpenFriendships");
+			return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
 		}
 		#endregion

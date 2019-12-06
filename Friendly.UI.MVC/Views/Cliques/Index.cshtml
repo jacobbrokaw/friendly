@@ -42,11 +42,15 @@
 				@Html.DisplayFor(modelItem => item.UserDetail.FullName)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.CliqueId }) |
-				@Html.ActionLink("View", "Details", new { id = item.CliqueId }) |
+				@Html.ActionLink("Edit", "Edit", new { id = item.CliqueId }, new { @class = "btn btn-link" })
+				@Html.ActionLink("View", "Details", new { id = item.CliqueId }, new { @class = "btn btn-link" })
 				@if (item.OpenFriendships.Count == 0)
 				{
-					@Html.ActionLink("Delete", "Delete", new { id = item.CliqueId })
+					@Html.ActionLink("Delete", "Delete", new { id = item.CliqueId }, new { @class = "btn btn-link" })
+				}
+				else
+				{
+					<a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
 				}
 			</td>
 
