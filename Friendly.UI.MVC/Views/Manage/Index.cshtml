@@ -54,7 +54,15 @@
 
 	<div class="form-group">
 		<div class="col-md-offset-2 col-md-10">
-			<input type="submit" value="Update" class="btn btn-default" />
+			@if (TempData["ApplyingTo"] != null)
+			{
+				<input type="number" value="@TempData["ApplyingTo"]" name="openFriendshipId" hidden />
+				<input type="submit" value="Save & Continue" class="btn btn-primary" />
+			}
+			else
+			{
+				<input type="submit" value="Update" class="btn btn-default" />
+			}
 		</div>
 	</div>
 }

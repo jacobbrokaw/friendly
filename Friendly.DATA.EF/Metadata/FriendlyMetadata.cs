@@ -25,6 +25,7 @@ namespace Friendly.DATA.EF//.Metadata
 
 		[Display(Name = "Superior Notes")]
 		[StringLength(2000, ErrorMessage = "Notes must be a maximum 2000 characters")]
+		[UIHint("MultilineText")]
 		public string ManagerNotes { get; set; }
 
 		[Required]
@@ -77,7 +78,13 @@ namespace Friendly.DATA.EF//.Metadata
 
 	}
 	[MetadataType(typeof(CliqueMetadata))]
-	public partial class Clique { }
+	public partial class Clique
+	{
+		public string Location
+		{
+			get { return $"{City}, {State}"; }
+		}
+	}
 	#endregion
 
 	#region Friendship
@@ -115,8 +122,6 @@ namespace Friendly.DATA.EF//.Metadata
 	#region UserDetail
 	public class UserDetailMetadata
 	{
-		//public string UserId { get; set; }
-
 		[Required]
 		[Display(Name = "First Name")]
 		[StringLength(50, ErrorMessage = "First name must be a maximum of 50 characters")]
@@ -133,6 +138,7 @@ namespace Friendly.DATA.EF//.Metadata
 	[MetadataType(typeof(UserDetailMetadata))]
 	public partial class UserDetail
 	{
+		[Display(Name = "Full Name")]
 		public string FullName
 		{
 			get { return $"{FirstName} {LastName}"; }

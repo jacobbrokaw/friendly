@@ -25,10 +25,8 @@
         <dd>
             @Html.DisplayFor(model => model.Friendship.Title)
         </dd>
-
     </dl>
 
-	@* Apply *@
 	@Html.ActionLink("Apply", "Apply", "Applications", new { openFriendshipId = Model.OpenFriendshipId }, new { @class = "btn btn-primary" })
 
 </div>

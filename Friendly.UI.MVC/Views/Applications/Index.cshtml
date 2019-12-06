@@ -1,63 +1,47 @@
 ﻿@model IEnumerable<Friendly.DATA.EF.Application>
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Applications";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ManagerNotes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ResumeFilename)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationStatus.StatusName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OpenFriendship.OpenFriendshipId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserDetail.FirstName)
-        </th>
-        <th></th>
-    </tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ApplicationDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ApplicationStatus.StatusName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.OpenFriendship.FriendshipId)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.OpenFriendship.Clique.BetaId)
+		</th>
+		<th></th>
+	</tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ManagerNotes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResumeFilename)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationStatus.StatusName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OpenFriendship.OpenFriendshipId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserDetail.FirstName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicationId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ApplicationId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicationId })
-        </td>
-    </tr>
-}
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.ApplicationDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ApplicationStatus.StatusName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.OpenFriendship.Friendship.Title)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.OpenFriendship.Clique.UserDetail.FullName)
+			</td>
+			<td>
+				@Html.ActionLink("View", "Details", new { id = item.ApplicationId })
+			</td>
+		</tr>
+	}
 
 </table>

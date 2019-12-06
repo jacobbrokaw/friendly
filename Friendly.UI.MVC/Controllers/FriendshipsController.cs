@@ -10,6 +10,7 @@ using Friendly.DATA.EF;
 
 namespace Friendly.UI.MVC.Controllers
 {
+	[Authorize(Roles = "Alpha, Beta")]
     public class FriendshipsController : Controller
     {
         private FriendlyEntities db = new FriendlyEntities();

@@ -10,6 +10,7 @@ using Friendly.DATA.EF;
 
 namespace Friendly.UI.MVC.Controllers
 {
+	[Authorize(Roles = "Alpha")]
     public class CliquesController : Controller
     {
         private FriendlyEntities db = new FriendlyEntities();
@@ -39,8 +40,11 @@ namespace Friendly.UI.MVC.Controllers
         // GET: Cliques/Create
         public ActionResult Create()
         {
-            ViewBag.BetaId = new SelectList(db.UserDetails, "UserId", "FirstName");
-            return View();
+			var managerRoleId = db.AspNetRoles.Where(r => r.Name == "Beta").Select(r => r.Id).Single();
+			var betaUsers = db.UserDetails.Where(x => db.AspNetUserRoles.Where(y => y.RoleId == managerRoleId).Select(y => y.UserId).Contains(x.UserId));
+			ViewBag.BetaId = new SelectList(betaUsers, "UserId", "FullName");
+
+			return View();
         }
 
         // POST: Cliques/Create
@@ -57,8 +61,11 @@ namespace Friendly.UI.MVC.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BetaId = new SelectList(db.UserDetails, "UserId", "FirstName", clique.BetaId);
-            return View(clique);
+			var managerRoleId = db.AspNetRoles.Where(r => r.Name == "Beta").Select(r => r.Id).Single();
+			var betaUsers = db.UserDetails.Where(x => db.AspNetUserRoles.Where(y => y.RoleId == managerRoleId).Select(y => y.UserId).Contains(x.UserId));
+			ViewBag.BetaId = new SelectList(betaUsers, "UserId", "FullName", clique.BetaId);
+
+			return View(clique);
         }
 
         // GET: Cliques/Edit/5
@@ -73,8 +80,11 @@ namespace Friendly.UI.MVC.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BetaId = new SelectList(db.UserDetails, "UserId", "FirstName", clique.BetaId);
-            return View(clique);
+			var managerRoleId = db.AspNetRoles.Where(r => r.Name == "Beta").Select(r => r.Id).Single();
+			var betaUsers = db.UserDetails.Where(x => db.AspNetUserRoles.Where(y => y.RoleId == managerRoleId).Select(y => y.UserId).Contains(x.UserId));
+			ViewBag.BetaId = new SelectList(betaUsers, "UserId", "FullName", clique.BetaId);
+
+			return View(clique);
         }
 
         // POST: Cliques/Edit/5
@@ -90,8 +100,11 @@ namespace Friendly.UI.MVC.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BetaId = new SelectList(db.UserDetails, "UserId", "FirstName", clique.BetaId);
-            return View(clique);
+			var managerRoleId = db.AspNetRoles.Where(r => r.Name == "Beta").Select(r => r.Id).Single();
+			var betaUsers = db.UserDetails.Where(x => db.AspNetUserRoles.Where(y => y.RoleId == managerRoleId).Select(y => y.UserId).Contains(x.UserId));
+			ViewBag.BetaId = new SelectList(betaUsers, "UserId", "FullName", clique.BetaId);
+
+			return View(clique);
         }
 
         // GET: Cliques/Delete/5
