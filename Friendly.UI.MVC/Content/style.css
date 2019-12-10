@@ -1,4 +1,11 @@
-﻿/*body {
+﻿/*
+    BRAND
+    Primary: #00bcd4 (cyan 500)
+    Secondary: #ff3d00 (deep orange A400)
+*/
+
+
+/*body {
     padding-top: 50px;
     padding-bottom: 20px;
 }*/
@@ -44,6 +51,11 @@ input[type="checkbox"].input-validation-error {
 
 
 /**** CUSTOM ****/
+#site-nav {
+    display: flex;
+    flex-direction: column;
+}
+
 .sidenav .collapsible-header {
     padding: 0 32px;
 }
@@ -61,4 +73,57 @@ header, main, footer {
     header, main, footer {
         padding-left: 0;
     }
+}
+
+nav {
+    height: 128px;
+    line-height: 128px;
+}
+
+.nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand {
+    text-align: center;
+    margin-top: 0;
+}
+
+.logo-wrapper {
+    text-align: center;
+}
+
+.logo {
+    display: inline-block;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
+
+.sidenav-trigger {
+    color: black;
+    margin-left: 1em;
+    z-index: 1;
+    width: 24px;
+}
+
+
+/**** TYPOGRAPHY ****/
+.brand-logo {
+    font-size: 2.5em !important;
+    color: #00bcd4 !important;
+}
+
+h1, h2, h3, h4, h5, h6, #title {
+    color: #00bcd4;
+}
+
+
+
+/**** COLLAPSIBLE ****/
+.sidenav .collapsible-body > ul:not(.collapsible) > li.active, .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
+    background-color: #008ba3;
 }

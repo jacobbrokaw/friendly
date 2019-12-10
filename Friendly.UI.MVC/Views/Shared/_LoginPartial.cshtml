@@ -1,19 +1,29 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated) {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
+@using Friendly.DATA.EF
+@if (Request.IsAuthenticated)
+{
+    string userId = User.Identity.GetUserId();
+    FriendlyEntities db = new FriendlyEntities();
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
+        <li class="mt-auto">
+            <a href="@Url.Action("Index", "Manage")" class="waves-effect" title="Manage"><i class="material-icons">account_circle</i>@db.UserDetails.Find(userId).FullName</a>
+            @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "waves-effect" })*@
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()" class="waves-effect"><i class="material-icons">exit_to_app</i>Log off</a></li>
     }
 }
-else {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+else
+{
+    <li>
+        <a href="@Url.Action("Register", "Account")" id="registerLink" class="waves-effect"><i class="material-icons">person_add</i>Register</a>
+        @*@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "waves-effect" })*@
+    </li>
+    <li>
+        <a href="@Url.Action("Login", "Account")" id="loginLink" class="waves-effect"><i class="material-icons">vpn_key</i>Log in</a>
+        @*@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "waves-effect" })*@
+    </li>
 }

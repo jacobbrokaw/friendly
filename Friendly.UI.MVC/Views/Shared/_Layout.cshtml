@@ -11,37 +11,6 @@
 </head>
 <body>
 
-    <!-- Side Nav -->
-    <ul class="sidenav sidenav-fixed" id="mobile-nav">
-        <li class="bold"><a href="@Url.Action("Index", "Home")" class="waves-effect">Home</a></li>
-        @if (User.IsInRole("Alpha"))
-        {
-            <li class="bold">@Html.ActionLink("Cliques", "Index", "Cliques", null, new { @class = "waves-effect" })</li>
-            // Collapsible Menu
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li class="bold">
-                        <a class="collapsible-header waves-effect">Manage</a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
-                                <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        }
-        @if (User.IsInRole("Beta") || User.IsInRole("Alpha"))
-        {
-            <li class="bold">@Html.ActionLink("Friendships", "Index", "Friendships", null, new { @class = "waves-effect" })</li>
-        }
-        @if (User.Identity.IsAuthenticated)
-        {
-            <li class="bold">@Html.ActionLink("Openings", "Index", "OpenFriendships", null, new { @class = "waves-effect" })</li>
-            <li class="bold">@Html.ActionLink(User.IsInRole("Friend") ? "My Applications" : "Applications", "Index", "Applications", null, new { @class = "waves-effect" })</li>
-        }
-    </ul>
 
     @* NAVBAR *@
     <!-- Admin Dropdown -->
@@ -78,14 +47,76 @@
 
 
     <header>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m10">
-                    <h1>@ViewBag.Title</h1>
+        @*<div class="container">
+                <div class="row">
+                    <div class="col s12 m10 ">
+                        <a href="#!" data-target="site-nav" class="top-nav sidenav-trigger full hide-on-large-only">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <h2 class="header center">@ViewBag.Title</h2>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="divider"></div>
+            <div class="container">
+
+            </div>
+            <div class="divider"></div>*@
+
+        <nav class="z-depth-0 white">
+            <div class="nav-wrapper">
+                <a class="brand-logo center">@ViewBag.Title</a>
+                @* TODO: Resize the page title, change the color, and remove the shadow *@
+                <a href="#" data-target="site-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            </div>
+            <div class="divider"></div>
+        </nav>
+
+        <!-- Side Nav -->
+        <ul class="sidenav sidenav-fixed" id="site-nav">
+            <li>
+                <div class="user-view">
+                    <div class="logo-wrapper">
+                        <a href="@Url.Action("Index", "Home")" class="logo"><img src="~/Content/assets/img/logo.png" /></a>
+                    </div>
+                    <a href="@Url.Action("Index", "Home")"><h2 class="brand">Friendly</h2></a>
+                </div>
+                <div class="divider"></div>
+            </li>
+            <!-- Links -->
+            <li class="bold"><a href="@Url.Action("Index", "Home")" class="waves-effect">Home</a></li>
+            @if (User.IsInRole("Alpha"))
+            {
+                <li class="bold">@Html.ActionLink("Cliques", "Index", "Cliques", null, new { @class = "waves-effect" })</li>
+                // Collapsible Menu
+                <li class="no-padding" id="manage-collapsible">
+                    <ul class="collapsible collapsible-accordion">
+                        <li class="bold">
+                            <a class="collapsible-header waves-effect">Manage</a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    <li>@Html.ActionLink("Roles", "Index", "RolesAdmin", null, new { @class = "waves-effect" })</li>
+                                    <li>@Html.ActionLink("Users", "Index", "UsersAdmin", null, new { @class = "waves-effect" })</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (User.IsInRole("Beta") || User.IsInRole("Alpha"))
+            {
+                <li class="bold">@Html.ActionLink("Friendships", "Index", "Friendships", null, new { @class = "waves-effect" })</li>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="bold">@Html.ActionLink("Openings", "Index", "OpenFriendships", null, new { @class = "waves-effect" })</li>
+                <li class="bold">@Html.ActionLink(User.IsInRole("Friend") ? "My Applications" : "Applications", "Index", "Applications", null, new { @class = "waves-effect" })</li>
+            }
+            <li class="mt-auto">
+                <div class="divider"></div>
+                <li><a class="subheader">Account</a></li>
+                @Html.Partial("_LoginPartial")
+            </li>
+        </ul>
     </header>
 
     <main>
@@ -108,6 +139,13 @@
             $('ul.sidenav li a').each(function () {
                 if ($(this).attr('href') == window.location.pathname) {
                     $(this).parent().addClass('active');
+
+                    if (window.location.pathname == '/RolesAdmin' || window.location.pathname == '/UsersAdmin') {
+                        //var instance = M.Collapsible.getInstance(document.getElementById('manage-collapsible'));
+                        //instance.open(0);
+                        var instance = document.getElementById('manage-collapsible');
+                        instance.setAttribute('class', instance.getAttribute('class') + ' active');
+                    }
                 }
             });
 
