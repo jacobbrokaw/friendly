@@ -2,14 +2,121 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title | Friendly</title>
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <!-- Side Nav -->
+    <ul class="sidenav sidenav-fixed" id="mobile-nav">
+        <li class="bold"><a href="@Url.Action("Index", "Home")" class="waves-effect">Home</a></li>
+        @if (User.IsInRole("Alpha"))
+        {
+            <li class="bold">@Html.ActionLink("Cliques", "Index", "Cliques", null, new { @class = "waves-effect" })</li>
+            // Collapsible Menu
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                    <li class="bold">
+                        <a class="collapsible-header waves-effect">Manage</a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
+                                <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        }
+        @if (User.IsInRole("Beta") || User.IsInRole("Alpha"))
+        {
+            <li class="bold">@Html.ActionLink("Friendships", "Index", "Friendships", null, new { @class = "waves-effect" })</li>
+        }
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li class="bold">@Html.ActionLink("Openings", "Index", "OpenFriendships", null, new { @class = "waves-effect" })</li>
+            <li class="bold">@Html.ActionLink(User.IsInRole("Friend") ? "My Applications" : "Applications", "Index", "Applications", null, new { @class = "waves-effect" })</li>
+        }
+    </ul>
+
+    @* NAVBAR *@
+    <!-- Admin Dropdown -->
+    @*<ul id="admin-dropdown" class="dropdown-content">
+            <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
+            <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
+        </ul>*@
+
+    @*<div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="@Url.Action("Index", "Home")" class="brand-logo">Friendly</a>
+                    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        @if (User.IsInRole("Alpha"))
+                        {
+                            <li>@Html.ActionLink("Cliques", "Index", "Cliques")</li>
+                            <li><a class="dropdown-trigger" href="#!" data-target="admin-dropdown">Manage<i class="material-icons right">arrow_drop_down</i></a></li>
+                        }
+                        @if (User.IsInRole("Beta") || User.IsInRole("Alpha"))
+                        {
+                            <li>@Html.ActionLink("Friendships", "Index", "Friendships")</li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>@Html.ActionLink("Openings", "Index", "OpenFriendships")</li>
+                            <li>@Html.ActionLink(User.IsInRole("Friend") ? "My Applications" : "Applications", "Index", "Applications")</li>
+                        }
+                    </ul>
+                </div>
+            </nav>
+        </div>*@
+
+
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 m10">
+                    <h1>@ViewBag.Title</h1>
+                </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+    </header>
+
+    <main>
+        <div class="container section">
+            @RenderBody()
+        </div>
+    </main>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/materialize")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('.dropdown-trigger').dropdown();
+            $('.collapsible').collapsible();
+
+            $('ul.sidenav li a').each(function () {
+                if ($(this).attr('href') == window.location.pathname) {
+                    $(this).parent().addClass('active');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
+
+@*<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -22,7 +129,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Support", "Support", "Home")</li>
 
                     @if (User.IsInRole("Alpha"))
                     {
@@ -50,10 +157,4 @@
         <footer>
             <p>&copy; @DateTime.Now.Year Jacob Brokaw</p>
         </footer>
-    </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>
+    </div>*@

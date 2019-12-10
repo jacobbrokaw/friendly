@@ -1,19 +1,19 @@
-﻿body {
+﻿/*body {
     padding-top: 50px;
     padding-bottom: 20px;
-}
+}*/
 
 /* Set padding to keep content from hitting the edges */
-.body-content {
+/*.body-content {
     padding-left: 15px;
     padding-right: 15px;
-}
+}*/
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+    resize: none;
 }
 
 /* styles for validation helpers */
@@ -39,4 +39,26 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+
+
+
+/**** CUSTOM ****/
+.sidenav .collapsible-header {
+    padding: 0 32px;
+}
+
+.sidenav .collapsible-body li a {
+    font-weight: 400;
+    padding: 0 48px;
+}
+
+header, main, footer {
+    padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
 }
