@@ -2,80 +2,154 @@
 @using Microsoft.AspNet.Identity
 
 @{
-	ViewBag.Title = "Index";
+    ViewBag.Title = User.IsInRole("Beta") ? "My Openings" : "Openings";
 }
 
-<h2>Open Friendships</h2>
+@*<h2>Open Friendships</h2>
 
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Friendship.Title)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Clique.Location)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Clique.Name)
-		</th>
-		<th></th>
-		<th></th>
-	</tr>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Friendship.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clique.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Clique.Name)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
 
-	@foreach (var item in Model)
-	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Friendship.Title)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Clique.Location)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Clique.Name)
-			</td>
-			<td>
-				@{ 
-					string userId = User.Identity.GetUserId();
-					var userApplication = item.Applications.Where(x => x.UserId == userId);
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Friendship.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clique.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clique.Name)
+                </td>
+                <td>
+                    @{
+                        string userId = User.Identity.GetUserId();
+                        var userApplication = item.Applications.Where(x => x.UserId == userId);
 
-					if (userApplication.Count() != 0)
-					{
-						@: Already Applied
-					}
-				}
-			</td>
-			<td>
-				@{
-					if (userApplication.Count() != 0)
-					{
-						// Has applied to this position
-						@Html.ActionLink("View Application", "Details", "Applications", new { id = userApplication.Single().ApplicationId }, new { @class = "btn btn-link" })
-					}
-					else
-					{
-						// Has not applied
-						@Html.ActionLink("View", "Details", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-					}
-				}
+                        if (userApplication.Count() != 0)
+                        {
+                            @: Already Applied
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (userApplication.Count() != 0)
+                        {
+                            // Has applied to this position
+                            @Html.ActionLink("View Application", "Details", "Applications", new { id = userApplication.Single().ApplicationId }, new { @class = "btn btn-link" })
+                        }
+                        else
+                        {
+                            // Has not applied
+                            @Html.ActionLink("View", "Details", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
+                        }
+                    }
 
-				@if (User.IsInRole("Beta"))
-				{
-					if (item.Applications.Count == 0)
-					{
-						@Html.ActionLink("Edit", "Edit", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-						@Html.ActionLink("Delete", "Delete", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-					}
-					else
-					{
-						<a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
-					}
-				}
-			</td>
-		</tr>
-	}
+                    @if (User.IsInRole("Beta"))
+                    {
+                        if (item.Applications.Count == 0)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
 
-</table>
+    </table>*@
+
+
+@if (User.IsInRole("Beta"))
+{
+    <div class="fixed-action-btn">
+        <a href="@Url.Action("Create")" class="btn-floating btn-large accent waves-effect waves-light">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+}
+<div class="row">
+    @foreach (var item in Model)
+    {
+        string userId = User.Identity.GetUserId();
+        var userApplication = item.Applications.Where(x => x.UserId == userId);
+
+        <div class="col s12 m6 l4">
+            <div class="card large sticky-action">
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">@item.Friendship.Title<i class="material-icons right">more_vert</i></span>
+                    <ul class="card-list">
+                        <li>
+                            @item.Clique.Location
+                            <i class="material-icons right">place</i>
+                        </li>
+                        <li><div class="divider"></div></li>
+                        <li>@item.Clique.UserDetail.FullName<i class="material-icons right">verified_user</i></li>
+                        <li><div class="divider"></div></li>
+                        <li>@item.Clique.Name<i class="material-icons right">group</i></li>
+                    </ul>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">About<i class="material-icons right">close</i></span>
+                    <p>
+                        @item.Friendship.Description
+                    </p>
+                </div>
+                @if (!User.IsInRole("Alpha"))
+                {
+                    <div class="card-action">
+                        @if (User.IsInRole("Friend"))
+                        {
+                            if (userApplication.Count() != 0)
+                            {
+                                // Has applied to this position
+                                @Html.ActionLink("Applied", "", "Applications", null, new { @class = "btn btn-link" })
+                                <a href="#!" class="btn-flat disabled" disabled>Apply</a>
+                            }
+                            else
+                            {
+                                // Has not applied
+                                @Html.ActionLink("Apply", "Apply", "Applications", new { openFriendshipId = item.OpenFriendshipId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
+                            }
+                        }
+
+                        @if (User.IsInRole("Beta"))
+                        {
+                            if (item.Applications.Count == 0)
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.OpenFriendshipId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.OpenFriendshipId }, new { @class = "waves-effect waves-light btn accent" })
+                            }
+                            else
+                            {
+                                <a href="#!" class="btn-flat disabled" disabled>Edit</a>
+                                <a href="#!" class="btn-flat disabled" disabled>Delete</a>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
