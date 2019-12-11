@@ -1,81 +1,77 @@
 ﻿@model Friendly.DATA.EF.UserDetail
 @{
-	ViewBag.Title = "Account Management";
+    ViewBag.Title = "Account Management";
 }
 
-<h2>@ViewBag.Title</h2>
+
 @if (ViewBag.StatusMessage != "")
 {
-	<p class="text-success">@ViewBag.StatusMessage</p>
+    <p class="text-success">@ViewBag.StatusMessage</p>
 }
 @if ((string)TempData["ErrorMessage"] != "")
 {
-	<p class="text-danger">@((string)TempData["ErrorMessage"])</p>
+    <p class="text-danger">@((string)TempData["ErrorMessage"])</p>
 }
 
-@using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
-{
-	@Html.AntiForgeryToken()
-	<hr />
-	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-	@Html.HiddenFor(model => model.ResumeFilename)
+<div class="card">
+    @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-	<div class="form-group">
-		@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10">
-			@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-		</div>
-	</div>
+        <div class="card-content">
+            <div class="row">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.ResumeFilename)
 
-	<div class="form-group">
-		@Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10">
-			@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-		</div>
-	</div>
+                <div class="input-field col s12 m6">
+                    @Html.EditorFor(model => model.FirstName)
+                    @Html.LabelFor(model => model.FirstName)
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
 
-	//Resume
-	<div class="form-group">
-		<label class="col-md-2 control-label" for="resumeFile">Resume</label>
-		<div class="col-md-10">
-			@if (!Model.ResumeFilename.IsEmpty())
-			{
-				<embed src="@Url.Content("~/Content/Resumes/" + Model.ResumeFilename)" style="width:80%;height:500px;" alt="Unable to load current resume" />
-			}
-			else
-			{
-				<span class="text-info small">You haven't uploaded a resume yet.</span>
-			}
-			<input type="file" name="resumeFile" />
-		</div>
-	</div>
+                <div class="input-field col s12 m6">
+                    @Html.EditorFor(model => model.LastName)
+                    @Html.LabelFor(model => model.LastName)
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
 
-	<div class="form-group">
-		<div class="col-md-offset-2 col-md-10">
-			@if (TempData["ApplyingTo"] != null)
-			{
-				<input type="number" value="@TempData["ApplyingTo"]" name="openFriendshipId" hidden />
-				<input type="submit" value="Save & Continue" class="btn btn-primary" />
-			}
-			else
-			{
-				<input type="submit" value="Update" class="btn btn-default" />
-			}
-		</div>
-	</div>
-}
+                <div class="col s12">
+                    <h5>Resume</h5>
+                    @if (!Model.ResumeFilename.IsEmpty())
+                    {
+                        <embed src="@Url.Content("~/Content/Resumes/" + Model.ResumeFilename)" style="width:100%;height:600px;" alt="Unable to load current resume" />
+                    }
+                    else
+                    {
+                        <span class="accent-text small">You haven't uploaded a resume yet.</span>
+                    }
+                    <div class="file-field input-field">
+                        <div class="btn accent waves-effect waves-light">
+                            <span>Upload Resume</span>
+                            <input type="file" name="resumeFile" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="row">
-	<div class="col-md-8">
-		<p>
-			@Html.ActionLink("Change your password", "ChangePassword")
-		</p>
-
-	</div>
+        <div class="card-action">
+            @if (TempData["ApplyingTo"] != null)
+            {
+                <input type="number" value="@TempData["ApplyingTo"]" name="openFriendshipId" hidden />
+                <button type="submit" value="Save & Continue" class="btn accent waves-effect waves-light">Save &amp; Continue<i class="material-icons right">arrow_forward</i></button>
+            }
+            else
+            {
+                <button type="submit" class="btn accent waves-effect waves-light">Update<i class="material-icons right">save</i></button>
+            }
+        </div>
+    }
 </div>
 
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 }
