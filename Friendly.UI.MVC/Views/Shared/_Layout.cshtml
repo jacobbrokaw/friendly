@@ -11,65 +11,16 @@
 </head>
 <body>
 
-
-    @* NAVBAR *@
-    <!-- Admin Dropdown -->
-    @*<ul id="admin-dropdown" class="dropdown-content">
-            <li>@Html.ActionLink("Roles", "Index", "RolesAdmin")</li>
-            <li>@Html.ActionLink("Users", "Index", "UsersAdmin")</li>
-        </ul>*@
-
-    @*<div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper">
-                    <a href="@Url.Action("Index", "Home")" class="brand-logo">Friendly</a>
-                    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="@Url.Action("Index", "Home")">Home</a></li>
-                        @if (User.IsInRole("Alpha"))
-                        {
-                            <li>@Html.ActionLink("Cliques", "Index", "Cliques")</li>
-                            <li><a class="dropdown-trigger" href="#!" data-target="admin-dropdown">Manage<i class="material-icons right">arrow_drop_down</i></a></li>
-                        }
-                        @if (User.IsInRole("Beta") || User.IsInRole("Alpha"))
-                        {
-                            <li>@Html.ActionLink("Friendships", "Index", "Friendships")</li>
-                        }
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li>@Html.ActionLink("Openings", "Index", "OpenFriendships")</li>
-                            <li>@Html.ActionLink(User.IsInRole("Friend") ? "My Applications" : "Applications", "Index", "Applications")</li>
-                        }
-                    </ul>
-                </div>
-            </nav>
-        </div>*@
-
-
     <header>
-        @*<div class="container">
-                <div class="row">
-                    <div class="col s12 m10 ">
-                        <a href="#!" data-target="site-nav" class="top-nav sidenav-trigger full hide-on-large-only">
-                            <i class="material-icons">menu</i>
-                        </a>
-                        <h2 class="header center">@ViewBag.Title</h2>
-                    </div>
+        @*<div class="navbar-fixed" style="z-index:;">*@
+            <nav class="z-depth-0 white">
+                <div class="nav-wrapper">
+                    <a class="brand-logo center">@ViewBag.Title</a>
+                    <a href="#" data-target="site-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 </div>
-            </div>
-            <div class="container">
-
-            </div>
-            <div class="divider"></div>*@
-
-        <nav class="z-depth-0 white">
-            <div class="nav-wrapper">
-                <a class="brand-logo center">@ViewBag.Title</a>
-                @* TODO: Resize the page title, change the color, and remove the shadow *@
-                <a href="#" data-target="site-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            </div>
-            <div class="divider"></div>
-        </nav>
+                <div class="divider"></div>
+            </nav>
+        @*</div>*@
 
         <!-- Side Nav -->
         <ul class="sidenav sidenav-fixed" id="site-nav">
@@ -113,8 +64,8 @@
             }
             <li class="mt-auto">
                 <div class="divider"></div>
-                <li><a class="subheader">Account</a></li>
-                @Html.Partial("_LoginPartial")
+            <li><a class="subheader">Account</a></li>
+            @Html.Partial("_LoginPartial")
             </li>
         </ul>
     </header>
@@ -132,12 +83,14 @@
 
     <script>
         $(document).ready(function () {
+            // inits
             $('.sidenav').sidenav();
             $('.dropdown-trigger').dropdown();
             $('.collapsible').collapsible();
+            $('select').formSelect();
 
             $('ul.sidenav li a').each(function () {
-                if ($(this).attr('href') == window.location.pathname) {
+                if ($(this).attr('href') == (window.location.pathname)) {
                     $(this).parent().addClass('active');
 
                     if (window.location.pathname == '/RolesAdmin' || window.location.pathname == '/UsersAdmin') {
