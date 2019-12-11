@@ -10,6 +10,9 @@
         @Html.AntiForgeryToken()
 
         <li class="mt-auto">
+            <a href="@Url.Action("Support", "Home")" class="waves-effect" title="Get Support"><i class="material-icons">help</i>Get Support</a>
+        </li>
+        <li>
             <a href="@Url.Action("Index", "Manage")" class="waves-effect" title="Manage"><i class="material-icons">account_circle</i>@db.UserDetails.Find(userId).FullName</a>
             @*@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "waves-effect" })*@
         </li>
@@ -19,7 +22,7 @@
 else
 {
     <li>
-        <a href="@Url.Action("Register", "Account")" id="registerLink" class="waves-effect"><i class="material-icons">person_add</i>Register</a>
+        <a href="@Url.Action("Index", "Manage")" class="waves-effect" title="Manage"><i class="material-icons">account_circle</i>Guest</a>
         @*@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "waves-effect" })*@
     </li>
     <li>
