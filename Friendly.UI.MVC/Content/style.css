@@ -76,8 +76,8 @@ header, main, footer {
 }
 
 nav {
-    height: 128px;
-    line-height: 128px;
+    height: 5em;
+    line-height: 5em;
 }
 
 .nav-wrapper {
@@ -113,7 +113,7 @@ nav {
 
 /**** TYPOGRAPHY ****/
 .brand-logo {
-    font-size: 2.5em !important;
+    /*font-size: 2.5em !important;*/
     color: #00bcd4 !important;
 }
 
@@ -121,9 +121,46 @@ h1, h2, h3, h4, h5, h6, #title {
     color: #00bcd4;
 }
 
+.bold {
+    font-weight: bold;
+}
+
+
+
+/**** CARD ****/
+.location {
+    padding-top: 2em;
+}
+
+ul.card-list li {
+    padding: .5em 0;
+}
+
 
 
 /**** COLLAPSIBLE ****/
 .sidenav .collapsible-body > ul:not(.collapsible) > li.active, .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
     background-color: #008ba3;
+}
+
+
+
+/**** WAVES ****/
+.waves-effect.waves-accent .waves-ripple {
+    background-color: rgba(255,61,0,.65);
+}
+
+.accent {
+    background-color: #ff3d00 !important;
+}
+
+.accent-text {
+    color: #ff3d00 !important;
+}
+
+
+
+/**** FORM ****/
+.dropdown-content li > span {
+    color: #ff3d00;
 }
