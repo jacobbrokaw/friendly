@@ -75,6 +75,16 @@ header, main, footer {
     }
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 nav {
     height: 5em;
     line-height: 5em;
@@ -119,6 +129,7 @@ nav {
 
 .header, #title, .brand {
     color: #00bcd4;
+    font-weight: 300;
 }
 
 .bold {
@@ -163,4 +174,11 @@ ul.card-list li {
 /**** FORM ****/
 .dropdown-content li > span {
     color: #ff3d00;
+}
+
+
+
+/**** FOOTER ****/
+.page-footer {
+    background-color: #00bcd4;
 }

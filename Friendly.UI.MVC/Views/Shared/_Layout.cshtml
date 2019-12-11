@@ -13,13 +13,13 @@
 
     <header>
         @*<div class="navbar-fixed" style="z-index:;">*@
-            <nav class="z-depth-0 white">
-                <div class="nav-wrapper">
-                    <a class="brand-logo center">@ViewBag.Title</a>
-                    <a href="#" data-target="site-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                </div>
-                <div class="divider"></div>
-            </nav>
+        <nav class="z-depth-0 white">
+            <div class="nav-wrapper">
+                <a class="brand-logo center">@ViewBag.Title</a>
+                <a href="#" data-target="site-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            </div>
+            <div class="divider"></div>
+        </nav>
         @*</div>*@
 
         <!-- Side Nav -->
@@ -75,6 +75,16 @@
             @RenderBody()
         </div>
     </main>
+
+    <footer class="page-footer">
+        <div class="footer-copyright">
+            <div class="container">
+                <i class="material-icons left">copyright</i> @DateTime.Now.Year Jacob Brokaw
+                <a class="grey-text text-lighten-4 right" href="https://www.jacobbrokaw.com">Portfolio</a>
+            </div>
+        </div>
+    </footer>
+
 
 
     @Scripts.Render("~/bundles/jquery")
