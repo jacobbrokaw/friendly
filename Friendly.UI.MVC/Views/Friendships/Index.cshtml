@@ -1,47 +1,35 @@
 ﻿@model IEnumerable<Friendly.DATA.EF.Friendship>
 
 @{
-	ViewBag.Title = "Index";
+    ViewBag.Title = "Friendships";
 }
 
-<h2>Friendships</h2>
+<div class="fixed-action-btn">
+    <a href="@Url.Action("Create")" class="btn-floating btn-large accent waves-effect waves-light">
+        <i class="large material-icons">add</i>
+    </a>
+</div>
 
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Title)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Description)
-		</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model)
-	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Title)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Description)
-			</td>
-			<td>
-				@Html.ActionLink("Details", "Details", new { id = item.FriendshipId }, new { @class = "btn btn-link" })
-				@if (item.OpenFriendships.Count == 0)
-				{
-					@Html.ActionLink("Edit", "Edit", new { id = item.FriendshipId }, new { @class = "btn btn-link" })
-					@Html.ActionLink("Delete", "Delete", new { id = item.FriendshipId }, new { @class = "btn btn-link" })
-				}
-				else
-				{
-					<a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
-				}
-			</td>
-		</tr>
-	}
-
-</table>
+<ul class="collapsible popout">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="collapsible-header">@item.Title</div>
+            <div class="collapsible-body">
+                <h6>Description</h6>
+                <p>
+                    @item.Description
+                </p>
+                @Html.ActionLink("Edit", "Edit", new { id = item.FriendshipId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
+                @if (item.OpenFriendships.Count == 0)
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.FriendshipId }, new { @class = "waves-effect waves-light btn accent" })
+                }
+                else
+                {
+                    <a href="javascript:void(0)" class="btn-flat disabled" disabled>Delete</a>
+                }
+            </div>
+        </li>
+    }
+</ul>
