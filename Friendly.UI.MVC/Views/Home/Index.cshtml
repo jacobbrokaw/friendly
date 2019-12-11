@@ -8,10 +8,17 @@
 
 <section>
     <article>
-        <h2 class="header">Welcome!</h2>
+        <h2 class="header">Welcome to Friendly</h2>
         <p class="flow-text">
-            Hello, @(User.Identity.IsAuthenticated ? db.UserDetails.Find(User.Identity.GetUserId()).FirstName : "reader"). Welcome to Friendly!<br />
-            Friendly is an ASP.NET MVC application that satisfies all of your friendship management needs. Whether you're looking for a new friend or wanting to join that clique you've had your eye on, you can do that here.
+            @*Hello, @(User.Identity.IsAuthenticated ? db.UserDetails.Find(User.Identity.GetUserId()).FirstName : "reader"). Welcome to Friendly!<br />*@
+            Friendly is an ASP.NET MVC application that satisfies all of your company's friendship management needs. Whether you're looking for a new friend or wanting to join that clique you've had your eye on, you can do that here.
+        </p>
+
+    </article>
+    <article>
+        <h2 class="header">How do I Use It?</h2>
+        <p class="flow-text">
+            First, you'll need to <a href="@Url.Action("Login", "Account")" class="accent-text touch-target">log in</a> to a company-provided account. Once you've done that, you may view the current <a href="@Url.Action("Index", "OpenFriendships")" class="accent-text touch-target">openings</a> or review your <a href="@Url.Action("Index", "Applications")" class="accent-text touch-target">applications</a>.
         </p>
     </article>
 </section>

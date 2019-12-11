@@ -121,22 +121,6 @@ nav {
 }
 
 
-/**** TYPOGRAPHY ****/
-.brand-logo {
-    /*font-size: 2.5em !important;*/
-    color: #00bcd4 !important;
-}
-
-.header, #title, .brand {
-    color: #00bcd4;
-    font-weight: 300;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-
 
 /**** CARD ****/
 .location {
@@ -167,6 +151,31 @@ ul.card-list li {
 
 .accent-text {
     color: #ff3d00 !important;
+}
+
+
+
+/**** TYPOGRAPHY ****/
+.brand-logo {
+    /*font-size: 2.5em !important;*/
+    color: #00bcd4 !important;
+}
+
+.header, #title, .brand {
+    color: #00bcd4;
+    font-weight: 300;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.touch-target:hover, .touch-target:focus, .touch-target:active {
+    text-decoration: underline;
+}
+
+.touch-target:active {
+    color: #c30000 !important;
 }
 
 

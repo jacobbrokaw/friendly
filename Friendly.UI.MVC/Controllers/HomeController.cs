@@ -34,6 +34,9 @@ namespace Friendly.UI.MVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                svm.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
+                svm.Email = User.Identity.Name;
+
                 return View(svm);
             }
 
@@ -44,7 +47,7 @@ namespace Friendly.UI.MVC.Controllers
             // Building Message
             string message = $"<h1>New Message</h1><h3>From <a href=\"mailto:{svm.Email}\">{svm.Name}</a></h3><hr><h3>{svm.Subject}</h3><p>{svm.Message}</p>";
 
-            MailMessage mm = new MailMessage("sender@email.com", "receiver@email.com", svm.Subject, message)
+            MailMessage mm = new MailMessage("admin@jacobbrokaw.com", "brokawjn@gmail.com", svm.Subject, message)
             {
                 IsBodyHtml = true,
                 Priority = MailPriority.High
@@ -53,13 +56,13 @@ namespace Friendly.UI.MVC.Controllers
 
             SmtpClient client = new SmtpClient("mail.jacobbrokaw.com")
             {
-                Credentials = new NetworkCredential("username", "password")
+                Credentials = new NetworkCredential("admin@jacobbrokaw.com", "Twinkie829604!")
             };
 
             try
             {
-                //client.Send(mm);
-                TempData["Demo"] = true;
+                client.Send(mm);
+                //TempData["Demo"] = true;
             }
             catch (Exception ex)
             {
