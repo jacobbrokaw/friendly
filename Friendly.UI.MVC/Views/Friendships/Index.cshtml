@@ -4,11 +4,14 @@
     ViewBag.Title = "Friendships";
 }
 
-<div class="fixed-action-btn">
-    <a href="@Url.Action("Create")" class="btn-floating btn-large accent waves-effect waves-light">
-        <i class="large material-icons">add</i>
-    </a>
-</div>
+@if (User.IsInRole("Alpha"))
+{
+    <div class="fixed-action-btn">
+        <a href="@Url.Action("Create")" class="btn-floating btn-large accent waves-effect waves-light">
+            <i class="large material-icons">add</i>
+        </a>
+    </div>
+}
 
 <ul class="collapsible popout">
     @foreach (var item in Model)
@@ -20,14 +23,17 @@
                 <p>
                     @item.Description
                 </p>
-                @Html.ActionLink("Edit", "Edit", new { id = item.FriendshipId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
-                @if (item.OpenFriendships.Count == 0)
+                @if (User.IsInRole("Alpha"))
                 {
-                    @Html.ActionLink("Delete", "Delete", new { id = item.FriendshipId }, new { @class = "waves-effect waves-light btn accent" })
-                }
-                else
-                {
-                    <a href="javascript:void(0)" class="btn-flat disabled" disabled>Delete</a>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.FriendshipId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
+                    if (item.OpenFriendships.Count == 0)
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.FriendshipId }, new { @class = "waves-effect waves-light btn accent" })
+                    }
+                    else
+                    {
+                        <a href="javascript:void(0)" class="btn-flat disabled" disabled>Delete</a>
+                    }
                 }
             </div>
         </li>
