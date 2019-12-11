@@ -28,7 +28,7 @@
                 <i class="material-icons left">person</i>@Model.UserDetail.FullName
             </div>
             <div class="col s12 m6">
-                <i class="material-icons left">calendar_today</i>@Model.ApplicationDate
+                <i class="material-icons left">calendar_today</i>@Html.DisplayFor(a => a.ApplicationDate)
             </div>
         </div>
 
@@ -92,7 +92,7 @@
                 <button id="acceptBtn" onclick="accept()" class="btn green">Accept</button>
                 <button id="rejectBtn" onclick="reject()" class="btn red">Reject</button>
             }
-            else
+            else if (User.IsInRole("Beta"))
             {
                 <button id="acceptBtn" class="btn-flat disabled" disabled>Accept</button>
                 <button id="rejectBtn" class="btn-flat disabled" disabled>Reject</button>
