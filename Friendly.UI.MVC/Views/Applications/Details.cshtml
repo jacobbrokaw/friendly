@@ -1,132 +1,135 @@
 ﻿@model Friendly.DATA.EF.Application
 
 @{
-	ViewBag.Title = "Details";
+    ViewBag.Title = "Application";
 }
 
-<h2>Details</h2>
+<div class="card">
+    <div class="card-content">
+        <span class="card-title grey-text text-darken-4">@Model.OpenFriendship.Friendship.Title</span>
+        <div class="section row">
+            <h5>Clique Info</h5>
+            <div class="col s12 m6 l4">
+                <i class="material-icons left">group</i>@Model.OpenFriendship.Clique.Name
+            </div>
+            <div class="col s12 m6 l4">
+                <i class="material-icons left">place</i>@Model.OpenFriendship.Clique.Location
+            </div>
+            <div class="col s12 m6 l4">
+                <i class="material-icons left">verified_user</i>@Model.OpenFriendship.Clique.UserDetail.FullName
+            </div>
+        </div>
 
-<div>
-	<h4>Application</h4>
-	<hr />
-	<dl class="dl-horizontal">
-		<dt>
-			@Html.DisplayNameFor(model => model.ApplicationDate)
-		</dt>
+        <div class="divider"></div>
 
-		<dd>
-			@Html.DisplayFor(model => model.ApplicationDate)
-		</dd>
+        <div class="section row">
+            <h5>Applicant</h5>
+            <div class="col s12 m6">
+                <i class="material-icons left">person</i>@Model.UserDetail.FullName
+            </div>
+            <div class="col s12 m6">
+                <i class="material-icons left">calendar_today</i>@Model.ApplicationDate
+            </div>
+        </div>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.UserDetail.FullName)
-		</dt>
+        <div class="divider"></div>
 
-		<dd>
-			@Html.DisplayFor(model => model.UserDetail.FullName)
-		</dd>
+        <div class="section">
+            <h5>Resume</h5>
+            @*<canvas id="resumeCanvas"></canvas>*@
+            <embed src="@Url.Content("~/Content/Resumes/" + Model.ResumeFilename)" style="width:100%;height:600px;" alt="Unable to load current resume" />
+        </div>
 
-		<dt>
-			@Html.DisplayNameFor(model => model.ResumeFilename)
-		</dt>
+        @if (User.IsInRole("Alpha") || User.IsInRole("Beta"))
+        {
+            <div class="divider"></div>
 
-		<dd>
-			<embed src="@Url.Content("~/Content/Resumes/" + Model.ResumeFilename)" style="width:80%;height:500px;" alt="Unable to load current resume" />
-		</dd>
+            <div class="section">
+                <h5>Superior Notes</h5>
+                @if (User.IsInRole("Alpha"))
+                {
+                    <blockquote>
+                        @Model.ManagerNotes
+                    </blockquote>
+                }
+                else
+                {
+                    using (Html.BeginForm("UpdateNotes", "Applications", new { id = Model.ApplicationId }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-		<dt>
-			@Html.DisplayNameFor(model => model.ApplicationStatus.StatusName)
-		</dt>
+                        <div class="input-field">
+                            @Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "materialize-textarea", placeholder = "Enter some notes here..." } })
+                            @Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
+                            <button type="submit" class="btn accent waves-effect waves-light left">Update</button>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
 
-		<dd>
-			<span id="applicationStatus">@Html.DisplayFor(model => model.ApplicationStatus.StatusName)</span>
-		</dd>
-
-		<dt>
-			@Html.DisplayNameFor(model => model.OpenFriendship.Friendship.Title)
-		</dt>
-
-		<dd>
-			@Html.DisplayFor(model => model.OpenFriendship.Friendship.Title)
-		</dd>
-
-		@if (User.IsInRole("Alpha") || User.IsInRole("Beta"))
-		{
-			<dt>
-				@Html.DisplayNameFor(model => model.ManagerNotes)
-			</dt>
-
-			<dd>
-				@if (User.IsInRole("Alpha"))
-				{
-					@Html.DisplayFor(model => model.ManagerNotes)
-				}
-				else
-				{
-					using (Html.BeginForm("UpdateNotes", "Applications", new { id = Model.ApplicationId }))
-					{
-						@Html.AntiForgeryToken()
-						@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-						<div class="form-group">
-							@Html.EditorFor(model => model.ManagerNotes, new { htmlAttributes = new { @class = "form-control" } })
-							@Html.ValidationMessageFor(model => model.ManagerNotes, "", new { @class = "text-danger" })
-						</div>
-						<div class="form-group">
-							<input type="submit" value="Update Notes" class="btn btn-primary" />
-						</div>
-					}
-				}
-			</dd>
-		}
-
-	</dl>
-
+    <div class="card-action">
+        <a href="@Url.Action("Index")" class="btn-flat waves-effect waves-accent accent-text">Back</a>
+        <div class="right valign-wrapper">
+            <i id="applicationStatus" class="material-icons left">
+                @switch (Model.ApplicationStatus.StatusName.ToLower())
+                {
+                    case "accepted":
+                        @:check_circle
+                        break;
+                    case "rejected":
+                        @:cancel
+                        break;
+                    case "pending":
+                        @:help
+                        break;
+                }
+            </i>
+            @if (Model.ApplicationStatusId == 1 && User.IsInRole("Beta"))
+            {
+                <button id="acceptBtn" onclick="accept()" class="btn green">Accept</button>
+                <button id="rejectBtn" onclick="reject()" class="btn red">Reject</button>
+            }
+            else
+            {
+                <button id="acceptBtn" class="btn-flat disabled" disabled>Accept</button>
+                <button id="rejectBtn" class="btn-flat disabled" disabled>Reject</button>
+            }
+        </div>
+    </div>
 </div>
 
-@if (Model.ApplicationStatusId == 1 && User.IsInRole("Beta"))
-{
-	<div id="actions">
-		<button id="acceptBtn" onclick="accept()" class="btn btn-success">Accept</button>
-		<button id="rejectBtn" onclick="reject()" class="btn btn-danger">Reject</button>
-	</div>
-	<span id="message" class="text-success"></span>
+@section Scripts {
+    @if (Model.ApplicationStatusId == 1 && User.IsInRole("Beta"))
+    {
+        <script>
+            function accept() {
+                fetch('/Applications/Accept/@Model.ApplicationId')
+                    .then((res) => { return res.json() })
+                    .then((data) => {
+                        if (data.status == 200) {
+                            applicationStatus.textContent = "check_circle";
+                        }
+                        acceptBtn.setAttribute("disabled", "true");
+                        rejectBtn.setAttribute("disabled", "true");
+                        M.toast({ html: data.message });
+                    });
+            }
 
-	@section Scripts {
-		<script>
-	function accept() {
-		fetch('/Applications/Accept/@Model.ApplicationId')
-			.then((res) => { return res.json() })
-			.then((data) => {
-				if (data.status == 200) {
-					applicationStatus.textContent = "Accepted";
-					message.setAttribute("class", "text-success");
-				} else {
-					message.setAttribute("class", "text-muted");
-				}
-				actions.setAttribute("hidden", "true");
-				message.textContent = data.message;
-			});
-	}
-
-	async function reject() {
-		fetch('/Applications/Reject/@Model.ApplicationId')
-			.then((res) => { return res.json() })
-			.then((data) => {
-				if (data.status == 200) {
-					applicationStatus.textContent = "Rejected";
-					message.setAttribute("class", "text-success");
-				} else {
-					message.setAttribute("class", "text-muted");
-				}
-				actions.setAttribute("hidden", "true");
-				message.textContent = data.message;
-			});
-	}
-		</script>
-	}
+                async function reject() {
+                    fetch('/Applications/Reject/@Model.ApplicationId')
+                        .then((res) => { return res.json() })
+                        .then((data) => {
+                        if (data.status == 200) {
+                            applicationStatus.textContent = "cancel";
+                        }
+                        acceptBtn.setAttribute("disabled", "true");
+                        rejectBtn.setAttribute("disabled", "true");
+                        M.toast({ html: data.message });
+                    });
+	            }
+        </script>
+    }
 }
-
-<p>
-	@Html.ActionLink("Back", "Index")
-</p>

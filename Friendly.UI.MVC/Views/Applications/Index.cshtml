@@ -1,47 +1,44 @@
 ﻿@model IEnumerable<Friendly.DATA.EF.Application>
 
 @{
-	ViewBag.Title = "Applications";
+    ViewBag.Title = User.IsInRole("Friend") ? "My Applications" : "Applications";
 }
 
-<h2>@ViewBag.Title</h2>
-
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.ApplicationDate)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.ApplicationStatus.StatusName)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.OpenFriendship.FriendshipId)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.OpenFriendship.Clique.BetaId)
-		</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model)
-	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.ApplicationDate)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.ApplicationStatus.StatusName)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.OpenFriendship.Friendship.Title)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.OpenFriendship.Clique.UserDetail.FullName)
-			</td>
-			<td>
-				@Html.ActionLink("View", "Details", new { id = item.ApplicationId })
-			</td>
-		</tr>
-	}
-
-</table>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col s12 m6 l4">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title grey-text text-darken-4">@item.OpenFriendship.Friendship.Title</span>
+                    <ul class="card-list">
+                        <li>@item.OpenFriendship.Clique.Name<i class="material-icons right">group</i></li>
+                        <li><div class="divider"></div></li>
+                        <li>@item.OpenFriendship.Clique.Location<i class="material-icons right">place</i></li>
+                        @*<li>@item.OpenFriendship.Clique.UserDetail.FullName<i class="material-icons right">verified_user</i></li>
+                            <li><div class="divider"></div></li>*@
+                        <li><div class="divider"></div></li>
+                        <li>@item.ApplicationDate<i class="material-icons right">calendar_today</i></li>
+                    </ul>
+                </div>
+                <div class="card-action">
+                    @Html.ActionLink("View", "Details", new { id = item.ApplicationId }, new { @class = "waves-effect waves-accent btn-flat accent-text" })
+                    <i class="material-icons right">
+                        @switch (item.ApplicationStatus.StatusName.ToLower())
+                        {
+                            case "accepted":
+                                @:check_circle
+                                break;
+                            case "rejected":
+                                @:cancel
+                                break;
+                            case "pending":
+                                @:help
+                                break;
+                        }
+                    </i>
+                </div>
+            </div>
+        </div>
+    }
+</div>
