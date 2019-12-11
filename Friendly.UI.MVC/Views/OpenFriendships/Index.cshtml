@@ -5,82 +5,6 @@
     ViewBag.Title = User.IsInRole("Beta") ? "My Openings" : "Openings";
 }
 
-@*<h2>Open Friendships</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Friendship.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Clique.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Clique.Name)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Friendship.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Clique.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Clique.Name)
-                </td>
-                <td>
-                    @{
-                        string userId = User.Identity.GetUserId();
-                        var userApplication = item.Applications.Where(x => x.UserId == userId);
-
-                        if (userApplication.Count() != 0)
-                        {
-                            @: Already Applied
-                        }
-                    }
-                </td>
-                <td>
-                    @{
-                        if (userApplication.Count() != 0)
-                        {
-                            // Has applied to this position
-                            @Html.ActionLink("View Application", "Details", "Applications", new { id = userApplication.Single().ApplicationId }, new { @class = "btn btn-link" })
-                        }
-                        else
-                        {
-                            // Has not applied
-                            @Html.ActionLink("View", "Details", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-                        }
-                    }
-
-                    @if (User.IsInRole("Beta"))
-                    {
-                        if (item.Applications.Count == 0)
-                        {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-                            @Html.ActionLink("Delete", "Delete", new { id = item.OpenFriendshipId }, new { @class = "btn btn-link" })
-                        }
-                        else
-                        {
-                            <a href="javascript:void(0)" class="btn btn-link disabled" disabled>In Use</a>
-                        }
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>*@
-
-
 @if (User.IsInRole("Beta"))
 {
     <div class="fixed-action-btn">
@@ -124,8 +48,7 @@
                             if (userApplication.Count() != 0)
                             {
                                 // Has applied to this position
-                                @Html.ActionLink("Applied", "", "Applications", null, new { @class = "btn btn-link" })
-                                <a href="#!" class="btn-flat disabled" disabled>Apply</a>
+                                <a href="#!" class="btn-flat disabled" disabled>Applied</a>
                             }
                             else
                             {
