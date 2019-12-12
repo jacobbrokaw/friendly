@@ -189,11 +189,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\img\favicon-16x16.png" />
+    <Content Include="Content\assets\img\favicon-32x32.png" />
+    <Content Include="favicon.ico" />
     <Content Include="Content\assets\img\logo-black.png" />
     <Content Include="Content\assets\img\logo-white.png" />
     <Content Include="Content\assets\img\logo.png" />
     <Content Include="Content\materialize.min.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\style.css" />
