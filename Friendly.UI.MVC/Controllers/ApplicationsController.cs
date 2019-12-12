@@ -91,9 +91,15 @@ namespace Friendly.UI.MVC.Controllers
 
 		#region Accept Application
 		//GET: Application/Accept/[applicationId]
+        [Authorize(Roles = "Beta")]
 		public ActionResult Accept(int id)
 		{
 			Application application = db.Applications.Find(id);
+
+            if (application.OpenFriendship.Clique.BetaId != User.Identity.GetUserId())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
 
 			if (!application.ApplicationStatusId.Equals(1))
 			{
@@ -111,11 +117,17 @@ namespace Friendly.UI.MVC.Controllers
 
 		#region Reject Application
 		//GET: Application/Accept/[applicationId]
+        [Authorize(Roles = "Beta")]
 		public ActionResult Reject(int id)
 		{
 			Application application = db.Applications.Find(id);
 
-			if (!application.ApplicationStatusId.Equals(1))
+            if (application.OpenFriendship.Clique.BetaId != User.Identity.GetUserId())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            if (!application.ApplicationStatusId.Equals(1))
 			{
 				// The application has already been accepted/rejected
 				return Content("{\"status\": 400, \"message\": \"The application has already been responded to\"}", "application/json");

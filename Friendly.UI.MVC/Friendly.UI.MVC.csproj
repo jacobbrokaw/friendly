@@ -189,6 +189,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\assets\img\logo-black.png" />
+    <Content Include="Content\assets\img\logo-white.png" />
     <Content Include="Content\assets\img\logo.png" />
     <Content Include="Content\materialize.min.css" />
     <Content Include="favicon.ico" />
