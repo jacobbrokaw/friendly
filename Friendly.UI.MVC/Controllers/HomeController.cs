@@ -37,15 +37,21 @@ namespace Friendly.UI.MVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                svm.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
-                svm.Email = User.Identity.Name;
+                if (User.Identity.IsAuthenticated)
+                {
+                    svm.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
+                    svm.Email = User.Identity.Name;
+                }
 
                 return View(svm);
             }
 
             // Enforcing user info
-            svm.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
-            svm.Email = User.Identity.Name;
+            if (User.Identity.IsAuthenticated)
+            {
+                svm.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
+                svm.Email = User.Identity.Name;
+            }
 
             // Building Message
             string message = $"<h1>New Message</h1><h3>From <a href=\"mailto:{svm.Email}\">{svm.Name}</a></h3><hr><h3>{svm.Subject}</h3><p>{svm.Message}</p>";
