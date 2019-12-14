@@ -47,16 +47,16 @@ namespace Friendly.UI.MVC.Controllers
             // Building Message
             string message = $"<h1>New Message</h1><h3>From <a href=\"mailto:{svm.Email}\">{svm.Name}</a></h3><hr><h3>{svm.Subject}</h3><p>{svm.Message}</p>";
 
-            MailMessage mm = new MailMessage("admin@jacobbrokaw.com", "brokawjn@gmail.com", svm.Subject, message)
+            MailMessage mm = new MailMessage("from", "to", svm.Subject, message)
             {
                 IsBodyHtml = true,
                 Priority = MailPriority.High
             };
             mm.ReplyToList.Add(svm.Email);
 
-            SmtpClient client = new SmtpClient("mail.jacobbrokaw.com")
+            SmtpClient client = new SmtpClient("myserver")
             {
-                Credentials = new NetworkCredential("admin@jacobbrokaw.com", "Twinkie829604!")
+                Credentials = new NetworkCredential("username", "password")
             };
 
             try
