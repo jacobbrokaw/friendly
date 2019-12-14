@@ -14,13 +14,27 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 <div class="input-field col s12 m4">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { disabled = true } })
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { disabled = true } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Name)
+                    }
                     @Html.LabelFor(model => model.Name)
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="input-field col s12 m8">
+                    @if (User.Identity.IsAuthenticated)
+                    {
                     @Html.EditorFor(model => model.Email, new { htmlattributes = new { disabled = true } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(model => model.Email)
+                    }
                     @Html.LabelFor(model => model.Email)
                     @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 </div>

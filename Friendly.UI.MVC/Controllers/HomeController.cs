@@ -22,8 +22,11 @@ namespace Friendly.UI.MVC.Controllers
         public ActionResult Support()
         {
             SupportViewModel supportModel = new SupportViewModel();
-            supportModel.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
-            supportModel.Email = User.Identity.Name;
+            if (User.Identity.IsAuthenticated)
+            {
+                supportModel.Name = db.UserDetails.Find(User.Identity.GetUserId()).FullName;
+                supportModel.Email = User.Identity.Name;
+            }
 
             return View(supportModel);
         }
